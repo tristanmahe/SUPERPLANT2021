@@ -5,3 +5,138 @@
 #
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
+require 'faker'
+
+PLANTARRAY = ["Schinopsis boqueronensis", "Athanasia microcephala", "Miconia victorinii", "Leptospermum confertum","Plagiochila discreta",
+  "Aphanostephus perennis", "Tapeinidium novoguineense", "Berberis nervosa", "Cynanchum sinoracemosum", "Bryum cyclophylloides",
+  "Astragalus shatuensis", "Odontochilus poilanei", "Paullinia stipularis", "Chaetanthera eurylepis", "Syringa villosa",
+  "Monoon oligocarpum", "Macromitrium braunii", "Anthurium nemoricola", "Napeanthus rupicola", "Acianthera erosa", "Acacia calcicola",
+  "Corybas walliae", "Ruellia colombiana", "Diospyros veillonii", "Prunus salasii", "Crotalaria kapirensis", "Rhododendron ungeonticum",
+  "Ixora havilandii", "Aldama michoacana", "Frullania haematosetacea", "Allocassine laurifolia", "Hypnum homaliocaulon",
+  "Crotalaria poliochlora", "Hanburia parviflora", "Xanthosoma riedelianum", "Stylosanthes recta", "Coleus stuhlmannii",
+  "Mikania trichodes", "Masdevallia lucernula", "Bryum amblyphyllum", "Stylochiton maximus", "Lonicera subsessilis", "Notopleura perparva",
+  "Dypsis aquatilis", "Hooveria parviflora", "Senecio trifurcifolius", "Pycnandra fastuosa", "Begonia schulziana", "Neomirandea psoralea",
+  "Ardisia retroflexa", "Reldia longipedunculata", "Breynia tonkinensis", "Alchemilla jailae", "Hieracium × silsinum", "Rhus caudata",
+  "Calamagrostis pusilla", "Myrcia flagellaris", "Hypericum decaisneanum", "Cyathea hirsutissima", "Chaetocarpus pearcei",
+  "Peperomia daguana", "Clematis nagaensis", "Hakea recurva", "Cuphea sessilifolia", "Bauhinia longifolia", "Acacia ancistrophylla",
+  "Trichlora huascarana", "Dichanthium sericeum", "Knema sericea", "Salsola glomerata", "Pulicaria pulvinata", "Erica schelpeorum",
+  "Mazaea shaferi", "Epidendrum libiae", "Trillium apetalon", "Muhlenbergia tenella", "Globba muluensis", "Macromitrium sclerodictyon",
+  "Disa brevicornis", "Odontarrhena fedtschenkoana", "Isopterygium jamesii", "Verbascum pterocalycinum", "Dianthus freynii",
+  "Tulipa heteropetala", "Pleurothallis eumecocaulon", "Psychotria brachyanthema", "Hedychium macrorrhizum", "Amomum bicornutum",
+  "Picea koyamae", "Matthiola incana", "Amphilophium nunezii", "Lithocarpus jordanae", "Rhynchosia komatiensis", "Croton rutilus",
+  "Nardus stricta", "Monimia rotundifolia", "Orixa japonica", "Paepalanthus chaseae", "Leucelene serotina", "Acer amboyense",
+  "Diospyros derdo", "Crossandra puberula", "Campylotropis meeboldii", "Euphorbia pilosissima", "Euphorbia fischeri", "Oncidium auroincarum",
+  "Draba longisquamosa", "Ipomoea peteri", "Ixora stenura", "Astragalus coltonii", "Zyrphelis glabra", "Urbanodendron verrucosum",
+  "Marsdenia vieillardi", "Amaryllis condemaita", "Cobaea paneroi", "Diplasia karatifolia", "Jacksonia forrestii", "Carex alata",
+  "Lasiopetalum glutiuosum", "Monteverdia microcarpa","Cupaniopsis concolor", "Aldama michoacana", "Sicydium davilae", "Bulbophyllum exiguum",
+  "Acer yui", "Polypogon maritimus", "Cassia luerssenii", "Trepocarpus aethusae", "Discocalyx philippinensis", "Mesembryanthemum holense",
+  "Thelypteris tylodes", "Triglochin hexagona", "Erica flexistyla", "Cousinia serratuloides", "Sobralia malmquistiana", "Elymus interruptus",
+  "Frullania borneensis", "Glossostelma brevilobum", "Actaea heracleifolia", "Silene apetala", "Entosthodon dixonii", "Zieria robusta",
+  "Cyphostemma omburense", "Megalastrum grande", "Psephellus alexeenkoi", "Froesiochloa boutelouoides", "Rhynchospora heterolepis",
+  "Wettinia lanata", "Pyrethrum decaisneanum", "Impatiens platypetala", "Psychotria ankarensis", "Nepenthes micramphora", "Silene chubutensis",
+  "Sisyrinchium pendulum", "Bulbophyllum nasutum", "Ceropegia ambovombensis", "Porothamnium sparsiflorum", "Pultenaea indira",
+  "Bolusiella fractiflexa", "Psychotria uberabana", "Albizia salomonensis", "Eupatorium pentaflorum", "Lagrezia suessengutbii",
+  "Gongora rufescens", "Myristica tenuivenia", "Taraxacum dasypogonum", "Loxostigma cavaleriei", "Polypodium munchii", "Prunus cornuta",
+  "Impatiens dicentra", "Trillium catesbaei", "Steirodiscus linearilobus", "Magnolia baillonii", "Aster luengoi", "Eria aurantia",
+  "Grevillea manglesii", "Pandanus forsteri", "Mortoniodendron pentagonum", "Lonchocarpus sanctae-marthae", "Lithomyrtus kakaduensis",
+  "Argemone superba", "Kurzia abietinella", "Neoalsomitra balansae", "Andira spectabilis", "Wahlenbergia calcarea", "Leandra breviflora",
+  "Rabiea jamesii", "Epidendrum brachystelestachyum", "Polypsecadium harmsianum", "Echinocoryne holosericea", "Bartramia pendula",
+  "Melhania ovata", "Prosthechea baculus", "Deprea zakii", "Scilla pneumonanthe", "Ruellia exilis", "Asparagus albus", "Calceolaria oxyphylla",
+  "Rhipidocladum panamense", "Hieracium kaeserianum", "Chenopodium nutans", "Rinorea umbricola", "Bunchosia montana",
+  "Plagiobothrys magellanicus", "Carlina frigida", "Aspalathus modesta", "Astragalus longipetalus", "Bifora testiculata",
+  "Benstonea rostellata", "Sherbournia buntingii", "Paepalanthus plantaginoides", "Androsace hohxilensis", "Aegiphila aracaensis",
+  "Brachionidium jesupiae", "Diplycosia rupicola", "Chaenostoma debile", "Cyrtandra pedicellata", "Bulbophyllum atropurpureum",
+  "Croton rutilus", "Croton rhodotrichus", "Aeonium goochiae", "Jasminum schimperi", "Chlorophytum malabaricum", "Eleocharis acutangula",
+  "Pleurochaete malacophylla", "Blakea mcphersonii", "Aulax pallasia", "Anthurium rodvasquezii", "Gymnosteris parvula", "Thelymitra petrophila",
+  "Centaurea giardinae", "Impatiens platypetala", "Begonia guaniana", "Camissonia dominguez-escalantorum", "Pavetta ruwenzoriensis",
+  "Prasophyllum fosteri", "Berberis agricola", "Triceratella drummondii", "Jatropha seineri", "Psychotria gundlachii",
+  "Ornithogalum nallihanense", "Arachniodes × respiciens", "Chloris cucullata", "Lejeunea jungneri", "Mangifera sumbawaensis",
+  "Eucalyptus burdettiana", "Solms-laubachia prolifera", "Rhopalocarpus similis", "Ilex pernyi", "Onosma fistulosum", "Echinacea simulata",
+  "Sorbus helenae", "Selago neglecta", "Euphorbia grammata", "Colea alata", "Aegiphila elongata", "Dicliptera vollesenii",
+  "Erythrina macrophylla", "Bryum pallescens", "Sphaeropteris sibuyanensis", "Corydalis filicina", "Trichomanes diversifrons",
+  "Pinguicula jackii", "Dipcadi maharashtrense", "Geophila emarginata", "Celtis peracuminata", "Gagea granulosa", "Erysimum macropetalum",
+  "Gentianella albanica", "Allium oreotadzhikorum", "Leandra reitzii", "Thuidium lonchopyxis", "Thelypteris moseleyi", "Restrepia sanguinea",
+  "Beilschmiedia wangii", "Boehmeria ramiflora", "Hieracium irazuense", "Castanopsis crassifolia", "Hedycarya basaltica", "Elymus smithii",
+  "Drosera marchantii", "Artabotrys dielsianus", "Pyracantha koidzumii", "Elaphoglossum heteroglossum", "Rauwolfia ternifolia",
+  "Cistus × stenophyllus", "Calceolaria flavovirens", "Gravesia reticulata", "Acer dureli", "Dionycha boinensis", "Ficus elasticoides",
+  "Elaphoglossum litanum", "Heliotropium pterocarpum", "Arnebia fimbriata", "Sempervivum dolomiticum", "Withania riebeckii",
+  "Dicliptera vollesenii", "Castanopsis borneensis", "Roldana gilgii", "Cyphostemma omburense", "Etlingera aculeatissima", "Primulina leprosa",
+  "Goniothalamus copelandii", "Iris arenaria", "Scrophularia catariifolia", "Dactylocladus stenostachys", "Gouinia latifolia", "Arundo reperta",
+  "Taraxacum epacroides", "Thomasia macrocarpa", "Hieracium cheirifolium", "Cousinia pycnocephala", "Deinbollia macrocarpa",
+  "Alchemilla kolaensis", "Distichium austroinclinatum", "Cyperus behboudii", "Dendrophorbium lucidum", "Croton microtiglium",
+  "Thrixspermum elmeri", "Galium fuegianum", "Stipa jaquemontii", "Botrychium ascendens", "Renanthera breviflora", "Gynoxys visoensis",
+  "Disperis micrantha", "Leptospermum wooroonooran", "Huperzia subintegra", "Rubus atrichantherus", "Sicyos molokaiensis",
+  "Schoenoplectiella naikiana", "Aspalathus pilantha", "Dendrochilum pandurichilum", "Trichostephanus gabonensis", "Astragalus vepres",
+  "Kigelia lutea", "Eragrostis sabulosa", "Cirsium crassum", "Croton thoii", "Austrobuxus cracens", "Polystichum × sarukurense",
+  "Ardisia basilanensis", "Argyreia luzonensis", "Tarenaya longipes", "Polysphaeria parvifolia", "Thalictrum hazaricum", "Eria lanigera",
+  "Huberantha decora", "Melampodium tenellum", "Corydalis shennongensis", "Peperomia gayi", "Rinorea oppositifolia", "Ophiorrhiza amoena",
+  "Gagea goekyigitii", "Crassothonna cacalioides", "Globulariopsis tephrodes", "Hoya oreostemma", "Senegalia piauhiensis", "Spigelia scabrella",
+  "Plectorrhiza tridentata", "Sabatia quadrangula","Schoenus rodwayanus", "Amphithalea schlecteri", "Siphocampylus paramicola",
+  "Smitinandia micrantha", "Heliophila africana", "Psychotria kitsonii", "Axinaea disrupta", "Stipa × kamelinii", "Lasianthus kilimandscharicus",
+  "Artabotrys insignis", "Stylosanthes recta", "Neckera distans", "Manulea tomentosa", "Rubus buhnensis", "Philadelphus mearnsii",
+  "Euphrasia flabellata", "Eriocaulon perplexum", "Cyperus rupestris", "Pilea grandifolia", "Raveniopsis tomentosa", "Bulbophyllum blepharochilun",
+  "Trichodesma longipedicellatum", "Senecio planiflorus", "Metzgeria assamica", "Verbesina cymbipalea", "Voacanga bracteata", "Pouteria egregia",
+  "Diplazium bostockii", "Silene skorpilii", "Acaulon leucochaete", "Grusonia robertsii", "Stenospermation arborescens", "Toxocarpus ellipticus",
+  "Phragmipedium guianense", "Xanthosoma riedelianum", "Buchnera dundensis", "Orthotrichum rivulare", "Dysoxylum macranthum",
+  "Taxillus rhododendricolius", "Hieracium platysemum", "Schoenoplectiella proxima", "Vernonia vulturina", "Sabal leei",
+  "Bulbophyllum gongshanense", "Cupaniopsis concolor", "Sloanea mexicana", "Ditrichum brevirostre", "Pitcairnia macbridei", "Oncidium roseoides",
+  "Thelypteris tylodes", "Ditrichum glaciale", "Allomarkgrafia brenesiana", "Stenostephanus lobeliiformis", "Merostachys rodonensis",
+  "Meyna pubescens", "Acacia simmonsiana", "Baccharis haitiensis", "Hieracium cordatum", "Borzicactus leonensis", "Dioon tomasellii",
+  "Mittenothamnium plinthophilum", "Anthurium lancea", "Achnatherum arnowiae", "Chilocarpus rostratus", "Calochortus minimus",
+  "Plectranthus ombrophilus", "Urophyllum endertii", "Disperis thomensis", "Cordiera macrophylla", "Rhabdodendron gardnerianum",
+  "Eriocoma webberi", "Strobilanthes hookeri", "Triraphis schinzii", "Alistilus magnificus", "Palicourea otongensis", "Torenia silvicola",
+  "Geissorhiza altimontana", "Drosanthemum pulchellum", "Canarium merrillii", "Corybas karoensis", "Hydrocotyle hitchcockii",
+  "Pseudosedum karatavicum", "Vernonia orchidorrhiza", "Sphaeropteris integra", "Croton atrostellatus", "Fagopyrum gracilipes",
+  "Calycera pulvinata", "Hypobathrum salicinum", "Corsinia weddelli", "Blechnum societatum", "Leptomeria dielsiana", "Tristemonanthus nigrisilvae",
+  "Paepalanthus lombensis", "Commelina giorgii", "Rondeletia rugelii", "Antennaria jamesonii", "Stephanbeckia plumosa", "Bernardia yucatanensis",
+  "Callisthene dryadum", "Palaquium canalicultum", "Lejeunea caviloba", "Discocalyx pygmaea", "Chiloscyphus christophersenii", "Swertia handeliana",
+  "Angelica ubadakensis", "Cienfuegosia drummondii", "Aizoon rehmannii", "Gardinia veolacea", "Gaertnera raphaelii", "Nepeta wuana",
+  "Eulobus crassifolius", "Scutellaria luteocaerulea", "Desmodium prehensile", "Hieracium latificum", "Rhinephyllum schonlandii",
+  "Berkheya pauciflora", "Calochortus kennedyi", "Scorzonera dzawakhetica", "Sacoila squamulosa", "Bulbophyllum kirroanthum"]
+
+def get_species
+  randint = rand (0..PLANTARRAY.count)
+  return PLANTARRAY[randint]
+end
+
+45.times do
+  user = User.new(
+    name: Faker::Artist.name,
+    password: Faker::Internet.password,
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
+    )
+  user.email = Faker::Internet.email(name: user.name)
+  user.save!
+end
+
+15.times do
+  user = User.new(
+    name: Faker::GreekPhilosophers.name,
+    password: Faker::Internet.password,
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
+    )
+  user.email = Faker::Internet.email(name: user.name)
+  user.save!
+  rand(3..7).times do
+    pricingnum = rand(1..200)
+    plant = Plant.new(
+      species: get_species,
+      status: "INSERT_STATUS",
+      pricing: "#{pricingnum.to_s}$/month",
+      user: user
+    )
+    plant.save!
+    randomn = rand(0..5)
+    randomn.times do
+      rental = Rental.new(
+        status: "INSERT_STATUS",
+        cost: (rand(1..50)*0.3*pricingnum).round(3),
+        start_date: DateTime.now,
+        end_date:  DateTime.now,
+        user: User.find(rand(1..User.all.count)),
+        plant: plant
+      )
+      rental.save!
+    end
+  end
+end
