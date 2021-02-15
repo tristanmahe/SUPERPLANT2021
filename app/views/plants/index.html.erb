@@ -1,0 +1,27 @@
+
+
+<div class ="container">
+  <h1> Plants List</h1>
+  <div>
+  <%= link_to "login", new_user_session_path  %>
+  </div>
+
+<div>
+  <ul>
+  <% @plants.each do |plant| %>
+    <li>
+      <%= link_to(plant_path(plant)) do %>
+      <%= plant.species %>
+      <% end %>
+      <%= plant.Status %>
+      <%= plant.Pricing %>
+    </li>
+      <% end %>
+ </ul>
+</div>
+
+<div>
+      <%= link_to "Create a Plant", new_plant_path %>
+</div>
+
+</div>
