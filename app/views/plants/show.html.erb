@@ -6,12 +6,16 @@
 
 <h1><%= @plant.species %></h1>
 <div>
-
   <p> Status: <%= @plant.status %> </p>
   <p> Price: <%= @plant.pricing %> </p>
+</div>
 
-<%= link_to "Rent this plant", rentals_path %>
-<br>
+<div>
+<%= simple_form_for( [@plant, @rental], remote: true) do |f| %>
+<%= f.input :start_date %>
+<%= f.input :end_date %>
+<%= f.submit %>
+<% end %>
+</div>
 <%= link_to "Back to Plants", plants_path %>
 
-</div>

@@ -72,6 +72,10 @@ def attach_user_icon(user, array)
   user.photo.attach(io: file, filename: 'user-icon.jpeg', content_type: 'image/jpeg')
 end
 
+def generate_date_array(number)
+
+end
+
 PLANTARRAY = ["Schinopsis boqueronensis", "Athanasia microcephala", "Miconia victorinii", "Leptospermum confertum","Plagiochila discreta",
   "Aphanostephus perennis", "Tapeinidium novoguineense", "Berberis nervosa", "Cynanchum sinoracemosum", "Bryum cyclophylloides",
   "Astragalus shatuensis", "Odontochilus poilanei", "Paullinia stipularis", "Chaetanthera eurylepis", "Syringa villosa",
@@ -164,28 +168,9 @@ def get_species
   return PLANTARRAY[randint]
 end
 
-45.times do
-  user = User.new(
-    name: Faker::Artist.name,
-    password: Faker::Internet.password,
-    remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
-    )
-  user.email = Faker::Internet.email(name: user.name)
-  attach_user_icon(user, userurlarray)
-  user.save!
-end
-
-15.times do
-  user = User.new(
-    name: Faker::GreekPhilosophers.name,
-    password: Faker::Internet.password,
-    remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
-    )
-  user.email = Faker::Internet.email(name: user.name)
-  attach_user_icon(user, userurlarray)
-  user.save!
+def user_protocol(user, planturlarray)
   rand(3..7).times do
-    pricingnum = rand(1..200)
+    pricingnum = (rand(1..200))
     plant = Plant.new(
       species: get_species,
       status: "INSERT_STATUS",
@@ -207,4 +192,44 @@ end
       rental.save!
     end
   end
+end
+
+def create_admins(array, planturlarray)
+  array.each do |name|
+    admin = User.new(
+      name: name,
+      password: "tester",
+      email: "#{name}@test.com",
+      remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
+    )
+    file = File.open('app/assets/images/admin-icon.png')
+    admin.photo.attach(io: file, filename: 'admin-icon.jpeg', content_type: 'image/jpeg')
+    admin.save!
+    user_protocol(admin, planturlarray)
+  end
+end
+
+create_admins(["tristan", "charles", "benjamin", "pierre"], planturlarray)
+
+45.times do
+  user = User.new(
+    name: Faker::Artist.name,
+    password: Faker::Internet.password,
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
+    )
+  user.email = Faker::Internet.email(name: user.name)
+  attach_user_icon(user, userurlarray)
+  user.save!
+end
+
+15.times do
+  user = User.new(
+    name: Faker::GreekPhilosophers.name,
+    password: Faker::Internet.password,
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
+    )
+  user.email = Faker::Internet.email(name: user.name)
+  attach_user_icon(user, userurlarray)
+  user.save!
+  user_protocol(user, planturlarray)
 end
