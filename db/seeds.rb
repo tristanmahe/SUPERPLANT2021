@@ -16,8 +16,8 @@ require 'open-uri'
 # end
 
 # def attach_plant_icon(user)
-#   file = File.open('app/assets/images/plant-icon.png')
-#   user.photo.attach(io: file, filename: 'plant-icon.png', content_type: 'image/png')
+#   file = File.open('app/assets/images/plant-icon.jpeg')
+#   user.photo.attach(io: file, filename: 'plant-icon.jpeg', content_type: 'image/jpeg')
 # end
 
 planturlarray = []
