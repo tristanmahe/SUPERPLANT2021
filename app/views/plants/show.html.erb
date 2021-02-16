@@ -4,9 +4,8 @@
   <p> Status: <%= @plant.status %> </p>
   <p> Price: <%= @plant.pricing %> </p>
 
-<button class = "btn btn-primary" >
-<%#= link_to "Book a Plant", new_rental_path %>
-</button>
+<%= link_to "Rent this plant", rentals_path %>
+<br>
 <%= link_to "Back to Plants", plants_path %>
 
 </div>
