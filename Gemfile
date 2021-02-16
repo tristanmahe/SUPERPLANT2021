@@ -35,6 +35,7 @@ gem 'simple_form'
 gem 'devise'
 
 gem 'faker', git: 'https://github.com/faker-ruby/faker.git', branch: 'master'
+gem 'open-uri'
 
 group :development, :test do
   gem 'pry-byebug'
