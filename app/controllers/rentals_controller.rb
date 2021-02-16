@@ -1,4 +1,6 @@
 class RentalsController < ApplicationController
+  before_action :set_plant, only: [:create]
+
   def index
     @rentals = Rental.all
   end
@@ -13,11 +15,13 @@ class RentalsController < ApplicationController
 
   def create
     @rental = Rental.new(rental_params)
+    @rental.plant = @plant
     @rental.user = current_user
-    @rental.save!
-    if @rental.save
+    authorize @rental
+
+    if @rental.save!
       flash[:success] = "Rental successfully created"
-      redirect_to rental_path(@rental)
+      redirect_to plants_path
     else
       flash[:error] = "something wrong"
       render :new
@@ -30,5 +34,9 @@ class RentalsController < ApplicationController
     params.require(:rental).permit(
       :status, :cost, :start_date, :end_date
     )
+  end
+
+  def set_plant
+    @plant = Plant.find(params[:plant_id])
   end
 end
