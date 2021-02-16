@@ -17,11 +17,12 @@ class RentalsController < ApplicationController
     @rental = Rental.new(rental_params)
     @rental.plant = @plant
     @rental.user = current_user
+    @rental.cost =  (@rental.end_date -  @rental.start_date)/(60*60*24) * @plant.pricing.to_i
     authorize @rental
 
     if @rental.save!
       flash[:success] = "Rental successfully created"
-      redirect_to plants_path
+      redirect_to dashboards_path
     else
       flash[:error] = "something wrong"
       render :new

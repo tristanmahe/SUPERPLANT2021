@@ -1,0 +1,15 @@
+<div class ="container">
+  <h1>Your rentals</h1>
+  
+  <ul>
+  <% @rentals.each do |rental| %>
+    <li>
+      <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+      <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+      <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+      <p>Coût location : <%= rental.cost %></p>
+      <br>
+    </li>
+  <% end %>
+ </ul>
+</div>
