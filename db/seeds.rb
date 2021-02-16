@@ -7,6 +7,16 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 
+def attach_avatar(user)
+  file = File.open('app/assets/images/user-icon.png')
+  user.photo.attach(io: file, filename: 'blank-avatar.png', content_type: 'image/png')
+end
+
+def attach_plant_icon(user)
+  file = File.open('app/assets/images/plant-icon.png')
+  user.photo.attach(io: file, filename: 'plant-icon.png', content_type: 'image/png')
+end
+
 PLANTARRAY = ["Schinopsis boqueronensis", "Athanasia microcephala", "Miconia victorinii", "Leptospermum confertum","Plagiochila discreta",
   "Aphanostephus perennis", "Tapeinidium novoguineense", "Berberis nervosa", "Cynanchum sinoracemosum", "Bryum cyclophylloides",
   "Astragalus shatuensis", "Odontochilus poilanei", "Paullinia stipularis", "Chaetanthera eurylepis", "Syringa villosa",
@@ -106,6 +116,7 @@ end
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
     )
   user.email = Faker::Internet.email(name: user.name)
+  attach_avatar(user)
   user.save!
 end
 
@@ -116,6 +127,7 @@ end
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
     )
   user.email = Faker::Internet.email(name: user.name)
+  attach_avatar(user)
   user.save!
   rand(3..7).times do
     pricingnum = rand(1..200)
@@ -125,6 +137,7 @@ end
       pricing: "#{pricingnum.to_s}$/month",
       user: user
     )
+    attach_plant_icon(plant)
     plant.save!
     randomn = rand(0..5)
     randomn.times do
