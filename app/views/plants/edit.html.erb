@@ -1,7 +1,6 @@
 <h1>Edit Plant</h1>
 
 <% if policy(Plant).create? %>
-  <%= link_to "New plant", new_plant_path %>
   <%= simple_form_for(@plant) do |f| %>
     <%= f.input :species %>
     <%= f.input :status %>
