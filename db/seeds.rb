@@ -6,6 +6,57 @@
 #   movies = Movie.create([{ name: 'Star Wars' }, { name: 'Lord of the Rings' }])
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
+require 'open-uri'
+
+# these contain the code to attach simple placeholders to the users and plants
+
+def attach_avatar(user)
+  file = File.open('app/assets/images/user-icon.png')
+  user.photo.attach(io: file, filename: 'blank-avatar.png', content_type: 'image/png')
+end
+
+# def attach_plant_icon(user)
+#   file = File.open('app/assets/images/plant-icon.png')
+#   user.photo.attach(io: file, filename: 'plant-icon.png', content_type: 'image/png')
+# end
+
+# planturlarray = []
+
+# userurlarray = []
+
+# def attach_avatar(user)
+#   file = URI.open('https://source.unsplash.com/collection/1521781')
+#   user.photo.attach(io: file, filename: 'blank-avatar.jpeg', content_type: 'image/jpeg')
+# end
+
+def attach_plant_icon(user)
+  file = URI.open('https://source.unsplash.com/collection/1521781/1600x900')
+  user.photo.attach(io: file, filename: 'plant-icon.jpeg', content_type: 'image/jpeg')
+end
+
+# 144 times do
+#   planturlarray << 'https://source.unsplash.com/collection/5051863'
+# end
+
+# 66 times do
+#   planturlarray << 'https://source.unsplash.com/collection/9440634'
+# end
+
+# 18 times do
+#   planturlarray << 'https://source.unsplash.com/collection/69704724'
+# end
+
+# 36 times do
+#   planturlarray << 'https://source.unsplash.com/collection/343175'
+# end
+
+# 20 times do
+#   planturlarray << 'https://source.unsplash.com/collection/425966'
+# end
+
+# 11 times do
+#   planturlarray << 'https://source.unsplash.com/collection/2385516'
+# end
 
 PLANTARRAY = ["Schinopsis boqueronensis", "Athanasia microcephala", "Miconia victorinii", "Leptospermum confertum","Plagiochila discreta",
   "Aphanostephus perennis", "Tapeinidium novoguineense", "Berberis nervosa", "Cynanchum sinoracemosum", "Bryum cyclophylloides",
@@ -106,6 +157,7 @@ end
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
     )
   user.email = Faker::Internet.email(name: user.name)
+  attach_avatar(user)
   user.save!
 end
 
@@ -116,6 +168,7 @@ end
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
     )
   user.email = Faker::Internet.email(name: user.name)
+  attach_avatar(user)
   user.save!
   rand(3..7).times do
     pricingnum = rand(1..200)
@@ -125,6 +178,7 @@ end
       pricing: "#{pricingnum.to_s}$/month",
       user: user
     )
+    attach_plant_icon(plant)
     plant.save!
     randomn = rand(0..5)
     randomn.times do
