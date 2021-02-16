@@ -1,0 +1,20 @@
+<div class ="container">
+  <h1>Your rentals</h1>
+<div>
+  <ul>
+  <% @rentals.each do |rental| %>
+    <li>
+      <%= rental.status %>
+      <%= rental.cost %>
+      <%= rental.start_date %>
+      <%= rental.end_date %>
+    </li>
+  <% end %>
+ </ul>
+</div>
+
+<div>
+      <%= link_to "Create a rental", new_rental_path %>
+</div>
+
+</div>
