@@ -168,24 +168,49 @@ def get_species
   return PLANTARRAY[randint]
 end
 
+def date_array(start_date, number, repnum)
+  resultarray = []
+  division = repnum / number
+  datetracker = start_date.dup
+  number.times do
+    midarray = []
+    finaldiv = division * rand(0.6..1.4)
+    datetracker -= finaldiv
+    if datetracker > 0
+      diceroll = true if rand(0..4) >= 2.5
+      diceroll ? daybreak = (Math.sqrt(rand(0..10000))).round(0) : daybreak = 0
+      midarray << start_date
+      start_date += finaldiv
+      start_date += daybreak
+      midarray << start_date
+      resultarray << midarray
+    end
+  end
+  return resultarray
+end
+
 def user_protocol(user, planturlarray)
   rand(3..7).times do
-    pricingnum = (rand(1..200))
+    pricingnum = rand(1.00..50.00)
     plant = Plant.new(
       species: get_species,
       status: "INSERT_STATUS",
-      pricing: "#{pricingnum.to_s}$/month",
+      pricing: pricingnum,
       user: user
     )
     attach_plant_icon(plant, planturlarray)
     plant.save!
-    randomn = rand(0..5)
-    randomn.times do
+    repnum = (DateTime.now.to_date - user.remember_created_at.to_date).to_f
+    absnum = (DateTime.now.to_date - (Faker::Date.between(from: '2018-09-23', to: '2018-09-23')).to_date).to_f
+    randomn = (rand(0..7) * Math.sqrt((repnum / absnum))).round(0)
+    darray = date_array(user.remember_created_at.to_date, randomn, repnum)
+    until darray == []
+      datechip = darray.delete_at(0)
       rental = Rental.new(
         status: "INSERT_STATUS",
-        cost: (rand(1..50)*0.3*pricingnum).round(3),
-        start_date: DateTime.now,
-        end_date:  DateTime.now,
+        cost: ((datechip[1] - datechip[0]).to_i*pricingnum).round(2),
+        start_date: datechip[0],
+        end_date:  datechip[1],
         user: User.find(rand(1..User.all.count)),
         plant: plant
       )
@@ -200,7 +225,7 @@ def create_admins(array, planturlarray)
       name: name,
       password: "tester",
       email: "#{name}@test.com",
-      remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
+      remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s)
     )
     file = File.open('app/assets/images/admin-icon.png')
     admin.photo.attach(io: file, filename: 'admin-icon.jpeg', content_type: 'image/jpeg')
@@ -215,7 +240,7 @@ create_admins(["tristan", "charles", "benjamin", "pierre"], planturlarray)
   user = User.new(
     name: Faker::Artist.name,
     password: Faker::Internet.password,
-    remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s)
     )
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
@@ -226,7 +251,7 @@ end
   user = User.new(
     name: Faker::GreekPhilosophers.name,
     password: Faker::Internet.password,
-    remember_created_at: Faker::Date.between(from: '2018-09-23', to: '2021-02-14')
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s)
     )
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
