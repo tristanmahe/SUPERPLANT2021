@@ -1,7 +1,7 @@
 <% if @plant.photo.attached? %>
-  <%= image_tag @plant.photo, height: 300, width: 400, crop: :fill %>
+<%= image_tag @plant.photo, height: 300, width: 400, crop: :fill %>
 <% else %>
-  <%= image_tag "plant-icon.png" %>
+<%= image_tag "plant-icon.jpeg" %>
 <% end %>
 
 <h1><%= @plant.species %></h1>
