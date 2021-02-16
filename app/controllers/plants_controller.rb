@@ -5,6 +5,7 @@ class PlantsController < ApplicationController
 
   def show
     @plant = Plant.find(params[:id])
+    @rental = Rental.new
     authorize @plant
   end
 
@@ -17,9 +18,8 @@ class PlantsController < ApplicationController
     @plant = Plant.new(plant_params)
     @plant.user = current_user
     authorize @plant
-
-    @plant.save!
-    if @plant.save
+   
+    if @plant.save!
       flash[:success] = "Plant successfully created"
       redirect_to plant_path(@plant)
     else
