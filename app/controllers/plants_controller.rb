@@ -1,5 +1,5 @@
 class PlantsController < ApplicationController
-  skip_before_action :authenticate_user!, only: [:show, :index]
+  skip_before_action :authenticate_user!, only: %i[show index]
 
   def index
     @plants = policy_scope(Plant).order(created_at: :desc)
@@ -52,6 +52,7 @@ class PlantsController < ApplicationController
 
   def compute_plant_status(plant)
     return "Available" if plant.rentals == []
+
     current_date = (DateTime.now.to_date - Date.new(2001)).to_i
     tracker = true
     plant.rentals.each do |rental|
@@ -60,6 +61,7 @@ class PlantsController < ApplicationController
       tracker = false unless current_date > end_date || current_date < start_date
     end
     return "Available" if tracker == true
+
     return "Currently unavailable"
   end
 
@@ -68,7 +70,6 @@ class PlantsController < ApplicationController
   end
 
   def plantarray_status(plantarray)
-    plantarray.each {|plant| plant.status = compute_plant_status(plant)}
+    plantarray.each { |plant| plant.status = compute_plant_status(plant) }
   end
-
 end
