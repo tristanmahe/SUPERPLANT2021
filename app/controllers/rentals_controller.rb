@@ -3,6 +3,7 @@ class RentalsController < ApplicationController
 
   def index
     @rentals = Rental.all
+    rentalarray_status(@rentals)
   end
 
   def show

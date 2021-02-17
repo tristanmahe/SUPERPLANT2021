@@ -3,10 +3,12 @@ class PlantsController < ApplicationController
 
   def index
     @plants = policy_scope(Plant).order(created_at: :desc)
+    plantarray_status(@plants)
   end
 
   def show
     @plant = Plant.find(params[:id])
+    plant_status(@plant)
     @rental = Rental.new
     authorize @plant
   end
@@ -32,6 +34,7 @@ class PlantsController < ApplicationController
 
   def edit
     @plant = Plant.find(params[:id])
+    plant_status(@plant)
     authorize @plant
   end
 

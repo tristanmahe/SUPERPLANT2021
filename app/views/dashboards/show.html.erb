@@ -1,45 +1,89 @@
 <div class ="container">
-  <div class="box">
-    <h1>Your rentals</h1>
-    <ul>
-      <% @rentals.each do |rental| %>
-        <li>
-          <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
-          <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
-          <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-          <p>Coût location : <%= rental.cost %></p>
-          <br>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+  <div class="row">
+      <div class="col-lg-6">
+        <div class="row">
+          <h1 class= "text-justify">Mes locations</h1>
+              <% @rentals.each do |rental| %>
+              <div class="notification">
+                 <% if rental.plant.photo.attached? %>
+                        <%= image_tag rental.plant.photo, height: 56, class:"avatar-large" %>
+                      <% else %>
+                        <%= image_tag "plant-icon.jpeg", class:"avatar-large" %>
+                      <% end %>
+                  <div class="notification-content">
+                    <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                    <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+                    <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+                    <p>Coût location : <%= rental.cost %></p>
+                  </div>
 
-  <div class="box">
-    <h1>Mes plantes louées</h1>
-    <ul>
-      <% @my_rentals.each do |rental| %>
-        <li>
-          <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
-          <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
-          <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-          <p>Coût location : <%= rental.cost %></p>
-          <br>
-        </li>
-      <% end %>
-    </ul>
-  </div>
+                  <div class="notification-actions">
+                    <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
+                    <a href="#">Delete <i class="far fa-trash-alt"></i></a>
+                  </div>
+                </div>
+              <% end %>
+          </div>
+      </div>
+      <div class="col-lg-6">
+        <div class="row">
+            <h1 class= "text-justify">Mes plantes louées</h1>
+              <% @my_rentals.each do |rental| %>
+              <div class="notification">
+                 <% if rental.plant.photo.attached? %>
+                        <%= image_tag rental.plant.photo, height: 56, class:"avatar-large" %>
+                      <% else %>
+                        <%= image_tag "plant-icon.jpeg", class:"avatar-large" %>
+                      <% end %>
+                  <div class="notification-content">
+                    <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                    <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+                    <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+                    <p>Coût location : <%= rental.cost %></p>
+                  </div>
 
-  <div class="box">
-  <h1>Toutes mes plantes</h1>
-    <ul>
-      <% @my_plants.each do |plant| %>
-        <li>
-           <p><%= plant.species %></p>
-           <p><%= plant.pricing %> €/jour</p>
-           <p><%= plant.status %></p>
-          <br>
-        </li>
-      <% end %>
-    </ul>
+                  <div class="notification-actions">
+                    <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
+                    <a href="#">Delete <i class="far fa-trash-alt"></i></a>
+                  </div>
+                </div>
+              <% end %>
+        </div>
+      </div>
+     </div>
+
+
+
+
+
+
+
+<div class="row">
+    <div class="col-lg-12">
+      <h1 class= "text-justify">Toutes mes plantes</h1>
+      <div class="row">
+        <% @my_plants.each do |plant| %>
+          <div class="col-4">
+            <%= link_to(plant_path(plant), class:"card-trip") do %>
+
+              <% if plant.photo.attached? %>
+                <%= image_tag plant.photo, height: 300, width: 400, crop: :fill %>
+              <% else %>
+                <%= image_tag "plant-icon.jpeg" %>
+              <% end %>
+
+              <div class="card-trip-infos">
+                <div>
+                  <p class="title"><%= plant.species %></p>
+                  <p><%= plant.status %></p>
+                </div>
+                <h2 class="card-trip-pricing"><%= plant.pricing %>€/mont</h2>
+                <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" />
+              </div>
+            <% end %>
+          </div>
+        <% end %>
+      </div>
+    </div>
   </div>
 </div>
