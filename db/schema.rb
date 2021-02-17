@@ -38,8 +38,8 @@ ActiveRecord::Schema.define(version: 2021_02_16_095337) do
 
   create_table "plants", force: :cascade do |t|
     t.string "species"
-    t.string "status"
-    t.string "pricing"
+    t.string "status", default: "Available"
+    t.float "pricing"
     t.bigint "user_id", null: false
     t.datetime "created_at", precision: 6, null: false
     t.datetime "updated_at", precision: 6, null: false
@@ -47,7 +47,7 @@ ActiveRecord::Schema.define(version: 2021_02_16_095337) do
   end
 
   create_table "rentals", force: :cascade do |t|
-    t.string "status"
+    t.string "status", default: "Booking"
     t.float "cost"
     t.datetime "start_date"
     t.datetime "end_date"

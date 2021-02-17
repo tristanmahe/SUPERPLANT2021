@@ -20,6 +20,32 @@ require 'open-uri'
 #   user.photo.attach(io: file, filename: 'plant-icon.jpeg', content_type: 'image/jpeg')
 # end
 
+def compute_rental_status(rental)
+  start_date = (rental.start_date.to_date - Date.new(2001)).to_i
+  end_date = (rental.end_date.to_date - Date.new(2001)).to_i
+  current_date = (DateTime.now.to_date - Date.new(2001)).to_i
+  if current_date < start_date
+    return "Booking"
+  elsif current_date > end_date
+    return "Completed"
+  else
+    return "Active"
+  end
+end
+
+def compute_plant_status(plant)
+  return "Available" if plant.rentals == []
+  current_date = (DateTime.now.to_date - Date.new(2001)).to_i
+  tracker = true
+  plant.rentals.each do |rental|
+    start_date = (rental.start_date.to_date - Date.new(2001)).to_i
+    end_date = (rental.end_date.to_date - Date.new(2001)).to_i
+    tracker = false unless current_date > end_date || current_date < start_date
+  end
+  return "Available" if tracker == true
+  return "Currently unavailable"
+end
+
 planturlarray = []
 
 userurlarray = []
@@ -70,10 +96,6 @@ def attach_user_icon(user, array)
   userurl = array[rand(0..303)]
   file = URI.open(userurl)
   user.photo.attach(io: file, filename: 'user-icon.jpeg', content_type: 'image/jpeg')
-end
-
-def generate_date_array(number)
-
 end
 
 PLANTARRAY = ["Schinopsis boqueronensis", "Athanasia microcephala", "Miconia victorinii", "Leptospermum confertum","Plagiochila discreta",
@@ -194,12 +216,10 @@ def user_protocol(user, planturlarray)
     pricingnum = rand(1.00..50.00)
     plant = Plant.new(
       species: get_species,
-      status: "INSERT_STATUS",
-      pricing: pricingnum,
+      pricing: sprintf('%.2f', pricingnum.round(2)),
       user: user
     )
     attach_plant_icon(plant, planturlarray)
-    plant.save!
     repnum = (DateTime.now.to_date - user.remember_created_at.to_date).to_f
     absnum = (DateTime.now.to_date - (Faker::Date.between(from: '2018-09-23', to: '2018-09-23')).to_date).to_f
     randomn = (rand(0..7) * Math.sqrt((repnum / absnum))).round(0)
@@ -207,15 +227,17 @@ def user_protocol(user, planturlarray)
     until darray == []
       datechip = darray.delete_at(0)
       rental = Rental.new(
-        status: "INSERT_STATUS",
-        cost: ((datechip[1] - datechip[0]).to_i*pricingnum).round(2),
+        cost: sprintf('%.2f', ((datechip[1] - datechip[0]).to_i*plant.pricing).round(2)),
         start_date: datechip[0],
         end_date:  datechip[1],
         user: User.find(rand(1..User.all.count)),
         plant: plant
       )
+      rental.status = compute_rental_status(rental)
       rental.save!
     end
+    plant.status = compute_plant_status(plant)
+    plant.save!
   end
 end
 
