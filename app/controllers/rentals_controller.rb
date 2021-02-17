@@ -17,7 +17,7 @@ class RentalsController < ApplicationController
     @rental = Rental.new(rental_params)
     @rental.plant = @plant
     @rental.user = current_user
-    @rental.cost =  (@rental.end_date -  @rental.start_date)/(60*60*24) * @plant.pricing.to_i
+    @rental.cost = (@rental.end_date - @rental.start_date) / (60 * 60 * 24) * @plant.pricing.to_i
     authorize @rental
 
     if @rental.save!
@@ -59,6 +59,6 @@ class RentalsController < ApplicationController
   end
 
   def rentalarray_status(rentalarray)
-    rentalarray.each {|rental| rental.status = compute_rental_status(rental)}
+    rentalarray.each { |rental| rental.status = compute_rental_status(rental) }
   end
 end
