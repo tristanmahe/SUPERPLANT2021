@@ -20,6 +20,22 @@ require 'open-uri'
 #   user.photo.attach(io: file, filename: 'plant-icon.jpeg', content_type: 'image/jpeg')
 # end
 
+def compute_rental_status(rental)
+  start_date = (rental.start_date.to_date - Date.new(2001)).to_i
+  end_date = (rental.end_date.to_date - Date.new(2001)).to_i
+  current_date = (DateTime.now.to_date - Date.new(2001)).to_i
+  if current_date <= start_date
+    return "Booking"
+  elsif current_date >= end_date
+    return "Completed"
+  else
+    return "Active"
+  end
+end
+
+def compute_status(plant)
+end
+
 planturlarray = []
 
 userurlarray = []
@@ -55,25 +71,21 @@ def attach_plant_icon(plant, array)
 end
 
 144.times do
-  userurlarray << 'https://source.unsplash.com/collection/895539'
+  userurlarray << 'https://source.unsplash.com/collection/895539/300x300'
 end
 
 134.times do
-  userurlarray << 'https://source.unsplash.com/collection/181462'
+  userurlarray << 'https://source.unsplash.com/collection/181462/300x300'
 end
 
 26.times do
-  userurlarray << 'https://source.unsplash.com/collection/1151354'
+  userurlarray << 'https://source.unsplash.com/collection/1151354/300x300'
 end
 
 def attach_user_icon(user, array)
   userurl = array[rand(0..303)]
   file = URI.open(userurl)
   user.photo.attach(io: file, filename: 'user-icon.jpeg', content_type: 'image/jpeg')
-end
-
-def generate_date_array(number)
-
 end
 
 PLANTARRAY = ["Schinopsis boqueronensis", "Athanasia microcephala", "Miconia victorinii", "Leptospermum confertum","Plagiochila discreta",
@@ -195,7 +207,7 @@ def user_protocol(user, planturlarray)
     plant = Plant.new(
       species: get_species,
       status: "INSERT_STATUS",
-      pricing: pricingnum,
+      pricing: sprintf('%.2f', pricingnum.round(2)),
       user: user
     )
     attach_plant_icon(plant, planturlarray)
@@ -207,13 +219,13 @@ def user_protocol(user, planturlarray)
     until darray == []
       datechip = darray.delete_at(0)
       rental = Rental.new(
-        status: "INSERT_STATUS",
-        cost: ((datechip[1] - datechip[0]).to_i*pricingnum).round(2),
+        cost: sprintf('%.2f', ((datechip[1] - datechip[0]).to_i*plant.pricing).round(2)),
         start_date: datechip[0],
         end_date:  datechip[1],
         user: User.find(rand(1..User.all.count)),
         plant: plant
       )
+      rental.status = compute_rental_status(rental)
       rental.save!
     end
   end
