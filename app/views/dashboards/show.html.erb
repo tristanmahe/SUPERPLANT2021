@@ -1,28 +1,45 @@
 <div class ="container">
-  <h1>Your rentals</h1>
-  
-  <ul>
-  <% @rentals.each do |rental| %>
-    <li>
-      <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
-      <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
-      <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-      <p>Coût location : <%= rental.cost %></p>
-      <br>
-    </li>
-  <% end %>
- </ul>
+  <div class="box">
+    <h1>Your rentals</h1>
+    <ul>
+      <% @rentals.each do |rental| %>
+        <li>
+          <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+          <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+          <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+          <p>Coût location : <%= rental.cost %></p>
+          <br>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 
- <ul>
-  <% @my_rentals.each do |rental| %>
-    <h2>MES RENTALS</h2>
-    <li>
-      <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
-      <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
-      <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-      <p>Coût location : <%= rental.cost %></p>
-      <br>
-    </li>
-  <% end %>
- </ul>
+  <div class="box">
+    <h1>Mes plantes louées</h1>
+    <ul>
+      <% @my_rentals.each do |rental| %>
+        <li>
+          <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+          <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+          <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+          <p>Coût location : <%= rental.cost %></p>
+          <br>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+
+  <div class="box">
+  <h1>Toutes mes plantes</h1>
+    <ul>
+      <% @my_plants.each do |plant| %>
+        <li>
+           <p><%= plant.species %></p>
+           <p><%= plant.pricing %> €/jour</p>
+           <p><%= plant.status %></p>
+          <br>
+        </li>
+      <% end %>
+    </ul>
+  </div>
 </div>
