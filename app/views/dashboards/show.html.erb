@@ -2,7 +2,7 @@
   <div class="row">
       <div class="col-lg-6">
         <div class="row">
-          <h1 class= "text-justify">Mes locations</h1>
+          <h1 class= "text-justify">My rentals</h1>
               <% @rentals.each do |rental| %>
               <div class="notification">
                  <% if rental.plant.photo.attached? %>
@@ -11,10 +11,10 @@
                         <%= image_tag "plant-icon.jpeg", class:"avatar-large" %>
                       <% end %>
                   <div class="notification-content">
-                    <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                    <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
                     <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
                     <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-                    <p>Coût location : <%= rental.cost %></p>
+                    <p>Cost : <%= rental.cost %></p>
                   </div>
 
                   <div class="notification-actions">
@@ -27,7 +27,7 @@
       </div>
       <div class="col-lg-6">
         <div class="row">
-            <h1 class= "text-justify">Mes plantes louées</h1>
+            <h1 class= "text-justify">My rente plants</h1>
               <% @my_rentals.each do |rental| %>
               <div class="notification">
                  <% if rental.plant.photo.attached? %>
@@ -36,10 +36,10 @@
                         <%= image_tag "plant-icon.jpeg", class:"avatar-large" %>
                       <% end %>
                   <div class="notification-content">
-                    <p>Durée Location : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                    <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
                     <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
                     <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-                    <p>Coût location : <%= rental.cost %></p>
+                    <p>Cost : <%= rental.cost %></p>
                   </div>
 
                   <div class="notification-actions">
@@ -60,7 +60,7 @@
 
 <div class="row">
     <div class="col-lg-12">
-      <h1 class= "text-justify">Toutes mes plantes</h1>
+      <h1 class= "text-justify">All my plants</h1>
       <div class="row">
         <% @my_plants.each do |plant| %>
           <div class="col-4">
@@ -77,7 +77,7 @@
                   <p class="title"><%= plant.species %></p>
                   <p><%= plant.status %></p>
                 </div>
-                <h2 class="card-trip-pricing"><%= plant.pricing %>€/mont</h2>
+                <h2 class="card-trip-pricing"><%= plant.pricing %>€/month</h2>
                 <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" />
               </div>
             <% end %>
