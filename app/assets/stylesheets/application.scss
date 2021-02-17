@@ -12,3 +12,19 @@
 @import "components/index";
 @import "pages/index";
 
+.form-container {
+  background-color: white;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}
+
+.button-container{
+  background-color: white;
+  text-align: center;
+  margin: 20px;
+  padding: 20px;
+  border-radius: 5px;
+  box-shadow: 0 0 15px rgba(0,0,0,0.2);
+}

@@ -81,15 +81,15 @@ def attach_plant_icon(plant, array)
 end
 
 144.times do
-  userurlarray << 'https://source.unsplash.com/collection/895539/300x300'
+  userurlarray << 'https://source.unsplash.com/collection/895539/100x100'
 end
 
 134.times do
-  userurlarray << 'https://source.unsplash.com/collection/181462/300x300'
+  userurlarray << 'https://source.unsplash.com/collection/181462/100x100'
 end
 
 26.times do
-  userurlarray << 'https://source.unsplash.com/collection/1151354/300x300'
+  userurlarray << 'https://source.unsplash.com/collection/1151354/100x100'
 end
 
 def attach_user_icon(user, array)
