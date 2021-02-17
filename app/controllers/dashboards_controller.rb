@@ -2,7 +2,7 @@ class DashboardsController < ApplicationController
   def show
     @rentals = Rental.where(user_id: current_user)
     rentalarray_status(@rentals)
-    @my_rentals = Rental.includes(:plant).where(plants: {user_id: current_user.id})
+    @my_rentals = Rental.includes(:plant).where(plants: { user_id: current_user.id })
     rentalarray_status(@my_rentals)
     @my_plants = current_user.plants
     plantarray_status(@my_plants)
@@ -38,13 +38,10 @@ class DashboardsController < ApplicationController
     start_date = (rental.start_date.to_date - Date.new(2001)).to_i
     end_date = (rental.end_date.to_date - Date.new(2001)).to_i
     current_date = (DateTime.now.to_date - Date.new(2001)).to_i
-    if current_date < start_date
-      return "Booking"
-    elsif current_date > end_date
-      return "Completed"
-    else
-      return "Active"
-    end
+    return "Booking" if current_date < start_date
+    return "Completed" if current_date > end_date
+
+    return "Active"
   end
 
   def rental_status(rental)
