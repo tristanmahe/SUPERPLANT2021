@@ -24,13 +24,9 @@ def compute_rental_status(rental)
   start_date = (rental.start_date.to_date - Date.new(2001)).to_i
   end_date = (rental.end_date.to_date - Date.new(2001)).to_i
   current_date = (DateTime.now.to_date - Date.new(2001)).to_i
-  if current_date < start_date
-    return "Booking"
-  elsif current_date > end_date
-    return "Completed"
-  else
-    return "Active"
-  end
+  return "Booking" if current_date < start_date
+  return "Completed"if current_date > end_date
+  return "Active"
 end
 
 def compute_plant_status(plant)
