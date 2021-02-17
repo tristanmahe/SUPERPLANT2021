@@ -1,4 +1,6 @@
 class PlantsController < ApplicationController
+  skip_before_action :authenticate_user!, only: [:show, :index]
+
   def index
     @plants = policy_scope(Plant).order(created_at: :desc)
   end
