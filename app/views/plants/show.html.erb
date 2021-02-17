@@ -1,21 +1,31 @@
-<% if @plant.photo.attached? %>
-<%= image_tag @plant.photo, height: 300, width: 400, crop: :fill %>
-<% else %>
-<%= image_tag "plant-icon.jpeg" %>
-<% end %>
 
-<h1><%= @plant.species %></h1>
-<div>
-  <p> Status: <%= @plant.status %> </p>
-  <p> Price: <%= @plant.pricing %> </p>
+<div class="card-product">
+  <% if @plant.photo.attached? %>
+  <%= image_tag @plant.photo, height: 300, width: 400, crop: :fill %>
+  <% else %>
+  <%= image_tag "plant-icon.jpeg" %>
+  <% end %>
+  <div class="card-product-infos">
+    <div>
+      <h2 class="title"><%= @plant.species %></h2>
+      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. <br>Suscipit ducimus ab provident voluptas non at quas dignissimos fugiat adipisci repudiandae.</br></p>
+      <p><%= @plant.status %></p>
+    </div>
+    <h2 class="card-product-pricing"><%= @plant.pricing %>€/mont</h2>
+    <img src="https://source.unsplash.com/collection/4389261/50x50" class="card-product-user avatar-bordered" />
+  </div>
 </div>
 
-<div>
+
+
+
+<div class="form-container">
 <%= simple_form_for( [@plant, @rental], remote: true) do |f| %>
 <%= f.input :start_date %>
 <%= f.input :end_date %>
-<%= f.submit %>
+<%= f.button :submit, class:"btn btn-ghost" %>
 <% end %>
 </div>
-<%= link_to "Back to Plants", plants_path %>
-
+<div class= "button-container">
+<%= link_to "Back to Plants", plants_path,  class:"btn btn-ghost" %>
+</div>

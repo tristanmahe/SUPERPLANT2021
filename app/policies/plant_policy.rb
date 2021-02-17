@@ -18,5 +18,4 @@ class PlantPolicy < ApplicationPolicy
   def show?
     true
   end
-  
 end

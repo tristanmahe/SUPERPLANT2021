@@ -24,16 +24,26 @@ def compute_rental_status(rental)
   start_date = (rental.start_date.to_date - Date.new(2001)).to_i
   end_date = (rental.end_date.to_date - Date.new(2001)).to_i
   current_date = (DateTime.now.to_date - Date.new(2001)).to_i
-  if current_date <= start_date
+  if current_date < start_date
     return "Booking"
-  elsif current_date >= end_date
+  elsif current_date > end_date
     return "Completed"
   else
     return "Active"
   end
 end
 
-def compute_status(plant)
+def compute_plant_status(plant)
+  return "Available" if plant.rentals == []
+  current_date = (DateTime.now.to_date - Date.new(2001)).to_i
+  tracker = true
+  plant.rentals.each do |rental|
+    start_date = (rental.start_date.to_date - Date.new(2001)).to_i
+    end_date = (rental.end_date.to_date - Date.new(2001)).to_i
+    tracker = false unless current_date > end_date || current_date < start_date
+  end
+  return "Available" if tracker == true
+  return "Currently unavailable"
 end
 
 planturlarray = []
@@ -71,15 +81,15 @@ def attach_plant_icon(plant, array)
 end
 
 144.times do
-  userurlarray << 'https://source.unsplash.com/collection/895539/300x300'
+  userurlarray << 'https://source.unsplash.com/collection/895539/100x100'
 end
 
 134.times do
-  userurlarray << 'https://source.unsplash.com/collection/181462/300x300'
+  userurlarray << 'https://source.unsplash.com/collection/181462/100x100'
 end
 
 26.times do
-  userurlarray << 'https://source.unsplash.com/collection/1151354/300x300'
+  userurlarray << 'https://source.unsplash.com/collection/1151354/100x100'
 end
 
 def attach_user_icon(user, array)
@@ -206,12 +216,10 @@ def user_protocol(user, planturlarray)
     pricingnum = rand(1.00..50.00)
     plant = Plant.new(
       species: get_species,
-      status: "INSERT_STATUS",
       pricing: sprintf('%.2f', pricingnum.round(2)),
       user: user
     )
     attach_plant_icon(plant, planturlarray)
-    plant.save!
     repnum = (DateTime.now.to_date - user.remember_created_at.to_date).to_f
     absnum = (DateTime.now.to_date - (Faker::Date.between(from: '2018-09-23', to: '2018-09-23')).to_date).to_f
     randomn = (rand(0..7) * Math.sqrt((repnum / absnum))).round(0)
@@ -228,6 +236,8 @@ def user_protocol(user, planturlarray)
       rental.status = compute_rental_status(rental)
       rental.save!
     end
+    plant.status = compute_plant_status(plant)
+    plant.save!
   end
 end
 
