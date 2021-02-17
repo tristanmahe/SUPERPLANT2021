@@ -30,7 +30,7 @@
               <% if plant.photo.attached? %>
                 <%= image_tag plant.photo, height: 300, width: 400, crop: :fill %>
               <% else %>
-                <%= image_tag "plant-icon.jpeg" %>
+                <%= asset_url('plant-icon.jpeg') %>
               <% end %>
 
               <div class="card-trip-infos">
@@ -44,7 +44,7 @@
                   <% if plant.user.photo.attached? %>
                     <%= image_tag plant.user.photo, height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
                   <% else %>
-                      <%= image_tag "user-icon.jpeg", height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
+                      <%= image_tag asset_url('user-icon.png'), height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
                   <% end %>
                 </div>
               </div>
