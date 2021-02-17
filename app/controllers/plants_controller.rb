@@ -50,7 +50,7 @@ class PlantsController < ApplicationController
     )
   end
 
-  def check_date(date, plant)
-    plant.
-  end
+  # def check_date(date, plant)
+  #   plant.
+  # end
 end
