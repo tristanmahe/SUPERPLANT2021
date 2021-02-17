@@ -12,7 +12,14 @@
       <p><%= @plant.status %></p>
     </div>
     <h2 class="card-product-pricing"><%= @plant.pricing %>€/mont</h2>
-    <img src="https://source.unsplash.com/collection/4389261/50x50" class="card-product-user avatar-bordered" />
+    <!-- <img src="https://source.unsplash.com/collection/4389261/50x50" class="card-product-user avatar-bordered" /> -->
+    <div>
+      <% if @plant.user.photo.attached? %>
+        <%= image_tag @plant.user.photo, height: 40, width: 40, class: "card-product-user avatar-bordered"%>
+      <% else %>
+          <%= image_tag "user-icon.jpeg", height: 40, width: 40, class: "card-product-user avatar-bordered"%>
+      <% end %>
+    </div>
   </div>
 </div>
 
