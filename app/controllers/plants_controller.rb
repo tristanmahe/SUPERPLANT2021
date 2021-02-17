@@ -50,7 +50,25 @@ class PlantsController < ApplicationController
     )
   end
 
-  def check_date(date, plant)
-    plant.
+  def compute_plant_status(plant)
+    return "Available" if plant.rentals == []
+    current_date = (DateTime.now.to_date - Date.new(2001)).to_i
+    tracker = true
+    plant.rentals.each do |rental|
+      start_date = (rental.start_date.to_date - Date.new(2001)).to_i
+      end_date = (rental.end_date.to_date - Date.new(2001)).to_i
+      tracker = false unless current_date > end_date || current_date < start_date
+    end
+    return "Available" if tracker == true
+    return "Currently unavailable"
   end
+
+  def plant_status(plant)
+    plant.status = compute_plant_status(plant)
+  end
+
+  def plantarray_status(plantarray)
+    plantarray.each {|plant| plant.status = compute_plant_status(plant)}
+  end
+
 end
