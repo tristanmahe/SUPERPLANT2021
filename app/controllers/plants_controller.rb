@@ -18,7 +18,7 @@ class PlantsController < ApplicationController
     @plant = Plant.new(plant_params)
     @plant.user = current_user
     authorize @plant
-   
+
     if @plant.save!
       flash[:success] = "Plant successfully created"
       redirect_to plant_path(@plant)
@@ -46,5 +46,9 @@ class PlantsController < ApplicationController
     params.require(:plant).permit(
       :species, :status, :pricing
     )
+  end
+
+  def check_date(date, plant)
+    plant.
   end
 end
