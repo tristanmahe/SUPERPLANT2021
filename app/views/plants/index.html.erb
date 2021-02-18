@@ -22,7 +22,7 @@
               <% if plant.photo.attached? %>
                 <%= cl_image_tag plant.photo.key, height: 300, width: 400, crop: :fill %>
               <% else %>
-                <%= image_tag asset_url('plant-icon.jpeg') %>
+                <%= image_tag 'pefeasa1eawrmiyvdhh5' %>
               <% end %>
 
               <div class="card-trip-infos">
@@ -36,7 +36,7 @@
                   <% if plant.user.photo.attached? %>
                     <%= cl_image_tag plant.user.photo.key, height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
                   <% else %>
-                      <%= cl_image_tag asset_url('user-icon.png'), height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
+                      <%= cl_image_tag 'esk2mumozchcvhm2zpul', height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
                   <% end %>
                 </div>
               </div>
