@@ -104,21 +104,21 @@ def attach_user_icon(user, array)
   user.photo.attach(io: file, filename: 'user-icon.jpeg', content_type: 'image/jpeg')
 end
 
-def find_reasonable_latitude
-  lat = 0.00
-  until lat > 44.4 && lat < 49.2
-    lat = Faker::Address.latitude
-  end
-  return lat
-end
+# def find_reasonable_latitude
+#   lat = 0.00
+#   until lat > 44.4 && lat < 49.2
+#     lat = Faker::Address.latitude
+#   end
+#   return lat
+# end
 
-def find_reasonable_longitude
-  long = 0.00
-  until long > -1.35 && long < 12
-    long = Faker::Address.longitude
-  end
-  return long
-end
+# def find_reasonable_longitude
+#   long = 0.00
+#   until long > -1.35 && long < 12
+#     long = Faker::Address.longitude
+#   end
+#   return long
+# end
 
 
 PLANTARRAY = ["Schinopsis boqueronensis", "Athanasia microcephala", "Miconia victorinii", "Leptospermum confertum","Plagiochila discreta",
@@ -294,8 +294,8 @@ puts "creating regular users..."
     name: Faker::Artist.name,
     password: Faker::Internet.password,
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
-    longitude: find_reasonable_longitude,
-    latitude: find_reasonable_latitude
+    longitude: rand(44.4..49.2),
+    latitude: rand(-1.35..12)
     )
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
@@ -310,8 +310,8 @@ puts "creating plant owners..."
     name: Faker::GreekPhilosophers.name,
     password: Faker::Internet.password,
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
-    longitude: find_reasonable_longitude,
-    latitude: find_reasonable_latitude
+    longitude: rand(44.4..49.2),
+    latitude: rand(-1.35..12)
     )
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
