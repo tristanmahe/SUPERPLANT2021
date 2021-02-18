@@ -29,7 +29,7 @@
             <% if current_user == nil%>
                 <%= cl_image_tag asset_url('user-icon.png'), height: 40, width: 40, class: "avatar dropdown-toggle", id: "navbarDropdown" %>
             <% elsif current_user.photo.attached? %>
-              <%= cl_image_tag current_user.photo, height: 40, width: 40, class: "avatar dropdown-toggle", id: "navbarDropdown" %>
+              <%= cl_image_tag current_user.photo.key, height: 40, width: 40, class: "avatar dropdown-toggle", id: "navbarDropdown" %>
             <% else %>
                 <%= cl_image_tag asset_url('user-icon.png'), height: 40, width: 40, class: "avatar dropdown-toggle", id: "navbarDropdown" %>
             <% end %>

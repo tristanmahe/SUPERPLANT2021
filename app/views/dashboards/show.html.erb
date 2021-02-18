@@ -6,7 +6,7 @@
               <% @rentals.each do |rental| %>
               <div class="notification">
                  <% if rental.plant.photo.attached? %>
-                        <%= cl_image_tag rental.plant.photo, height: 56, class:"avatar-large" %>
+                        <%= cl_image_tag rental.plant.photo.key, height: 56, class:"avatar-large" %>
                       <% else %>
                         <%= cl_image_tag "plant-icon.jpeg", class:"avatar-large" %>
                       <% end %>
@@ -31,7 +31,7 @@
               <% @my_rentals.each do |rental| %>
               <div class="notification">
                  <% if rental.plant.photo.attached? %>
-                        <%= cl_image_tag rental.plant.photo, height: 56, class:"avatar-large" %>
+                        <%= cl_image_tag rental.plant.photo.key, height: 56, class:"avatar-large" %>
                       <% else %>
                         <%= cl_image_tag "plant-icon.jpeg", class:"avatar-large" %>
                       <% end %>
@@ -67,7 +67,7 @@
             <%= link_to(plant_path(plant), class:"card-trip") do %>
 
               <% if plant.photo.attached? %>
-                <%= cl_image_tag plant.photo, height: 300, width: 400, crop: :fill %>
+                <%= cl_image_tag plant.photo.key, height: 300, width: 400, crop: :fill %>
               <% else %>
                 <%= cl_image_tag "plant-icon.jpeg" %>
               <% end %>
