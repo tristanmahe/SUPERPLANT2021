@@ -20,6 +20,12 @@ require 'open-uri'
 #   user.photo.attach(io: file, filename: 'plant-icon.jpeg', content_type: 'image/jpeg')
 # end
 
+puts "destroy data..."
+Rental.destroy_all
+Plant.destroy_all
+User.destroy_all
+puts "data destroyed"
+
 def compute_rental_status(rental)
   start_date = (rental.start_date.to_date - Date.new(2001)).to_i
   end_date = (rental.end_date.to_date - Date.new(2001)).to_i
@@ -41,6 +47,8 @@ def compute_plant_status(plant)
   return "Available" if tracker == true
   return "Currently unavailable"
 end
+
+puts "create data ..."
 
 planturlarray = []
 
@@ -226,7 +234,7 @@ def user_protocol(user, planturlarray)
         cost: sprintf('%.2f', ((datechip[1] - datechip[0]).to_i*plant.pricing).round(2)),
         start_date: datechip[0],
         end_date:  datechip[1],
-        user: User.find(rand(1..User.all.count)),
+        user: User.all.sample,
         plant: plant
       )
       rental.status = compute_rental_status(rental)
@@ -254,7 +262,7 @@ end
 
 create_admins(["tristan", "charles", "benjamin", "pierre"], planturlarray)
 
-45.times do
+15.times do
   user = User.new(
     name: Faker::Artist.name,
     password: Faker::Internet.password,
@@ -265,7 +273,7 @@ create_admins(["tristan", "charles", "benjamin", "pierre"], planturlarray)
   user.save!
 end
 
-15.times do
+5.times do
   user = User.new(
     name: Faker::GreekPhilosophers.name,
     password: Faker::Internet.password,
@@ -276,3 +284,5 @@ end
   user.save!
   user_protocol(user, planturlarray)
 end
+
+puts 'SUCCESS'
