@@ -102,6 +102,23 @@ def attach_user_icon(user, array)
   user.photo.attach(io: file, filename: 'user-icon.jpeg', content_type: 'image/jpeg')
 end
 
+def find_reasonable_latitude
+  lat = 0.00
+  until lat > 44.4 && lat < 49.2
+    lat = Faker::Address.latitude
+  end
+  return lat
+end
+
+def find_reasonable_longitude
+  long = 0.00
+  until long > -1.35 && long < 12
+    long = Faker::Address.longitude
+  end
+  return long
+end
+
+
 PLANTARRAY = ["Schinopsis boqueronensis", "Athanasia microcephala", "Miconia victorinii", "Leptospermum confertum","Plagiochila discreta",
   "Aphanostephus perennis", "Tapeinidium novoguineense", "Berberis nervosa", "Cynanchum sinoracemosum", "Bryum cyclophylloides",
   "Astragalus shatuensis", "Odontochilus poilanei", "Paullinia stipularis", "Chaetanthera eurylepis", "Syringa villosa",
@@ -251,7 +268,9 @@ def create_admins(array, planturlarray)
       name: name,
       password: "tester",
       email: "#{name}@test.com",
-      remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s)
+      remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
+      longitude: 48.8651313,
+      latitude: 2.3778106
     )
     file = File.open('app/assets/images/admin-icon.png')
     admin.photo.attach(io: file, filename: 'admin-icon.jpeg', content_type: 'image/jpeg')
@@ -267,6 +286,8 @@ create_admins(["tristan", "charles", "benjamin", "pierre"], planturlarray)
     name: Faker::Artist.name,
     password: Faker::Internet.password,
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s)
+    longitude: find_reasonable_longitude,
+    latitude: find_reasonable_latitude
     )
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
@@ -277,7 +298,9 @@ end
   user = User.new(
     name: Faker::GreekPhilosophers.name,
     password: Faker::Internet.password,
-    remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s)
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
+    longitude: find_reasonable_longitude,
+    latitude: find_reasonable_latitude
     )
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
