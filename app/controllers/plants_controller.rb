@@ -4,6 +4,14 @@ class PlantsController < ApplicationController
   def index
     @plants = policy_scope(Plant).order(created_at: :desc)
     plantarray_status(@plants)
+
+    @markers = @plants.map do |plant|
+      next if plant.user.latitude.nil?
+      {
+        lat: plant.user.latitude,
+        lng: plant.user.longitude
+      }
+    end
   end
 
   def show

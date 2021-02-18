@@ -17,6 +17,8 @@ require("channels")
 // const imagePath = (name) => images(name, true)
 
 
+import { initMapbox } from '../plugins/init_mapbox';
+
 // ----------------------------------------------------
 // Note(lewagon): ABOVE IS RAILS DEFAULT CONFIGURATION
 // WRITE YOUR OWN JS STARTING FROM HERE 👇
@@ -31,4 +33,5 @@ import "bootstrap";
 document.addEventListener('turbolinks:load', () => {
   // Call your functions here, e.g:
   // initSelect2();
+  initMapbox();
 });
