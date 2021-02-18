@@ -2,7 +2,7 @@
   background-size: cover;
   background-position: center;
   padding: 150px 0;
-
+  height: 100vh;
 }
 
 .banner h1 {
@@ -22,7 +22,7 @@
 
 .search-form-control {
   position: relative;
-
+  
 }
 
 .search-form-control .btn {
@@ -42,4 +42,12 @@
   border: 1px solid #1EDD88;
   outline: none !important;
   box-shadow: 0 2px 6px rgba(0,0,0,0.08);
+}
+
+.form-control {
+  border-radius: 10px;
+}
+
+.container-home {
+  margin: 100px 250px;
 }
