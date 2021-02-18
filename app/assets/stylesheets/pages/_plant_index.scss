@@ -1,0 +1,16 @@
+.plants-cards {
+  display: flex;
+  flex-wrap: wrap;
+  grid-column: 1/3;
+}
+
+.container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  align-items: start;
+}
+
+#map {
+  position: sticky;
+  top: 5px;
+}

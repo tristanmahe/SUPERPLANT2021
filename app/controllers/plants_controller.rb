@@ -9,7 +9,9 @@ class PlantsController < ApplicationController
       next if plant.user.latitude.nil?
       {
         lat: plant.user.latitude,
-        lng: plant.user.longitude
+        lng: plant.user.longitude,
+        infoWindow: render_to_string(partial: "info_window", locals: { plant: plant }),
+        image_url: helpers.asset_url('https://res.cloudinary.com/dokxdrjbd/image/upload/v1613657324/pefeasa1eawrmiyvdhh5.png')
       }
     end
   end
