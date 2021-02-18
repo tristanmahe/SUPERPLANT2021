@@ -1,8 +1,7 @@
-<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://source.unsplash.com/NwBx723XaHw);">
-  <div class="container">
-    <h1>Super Plant <strong>the first</strong> app <strong>to rent plants</strong>!</h1>
-    <p>Change your life and learn how to rent plants around the world.</p>
+<div class ="container">
+  <div class="search-index">
     <form novalidate="novalidate" class="simple_form search" action="/" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" />
+<<<<<<< HEAD
       <div class="search-form-control form-group">
         <%# <input class="form-control string required" type="text" name="search[query]" id="search_query" /> %>
         <%# input of the search ActiveRecord %>
@@ -20,14 +19,17 @@
         </button> %>
       </div>
     </form>
+=======
+        <div class="search-form-control form-group">
+          <input class="form-control string required" type="text" name="search[query]" id="search_query" />
+          <button name="button" type="submit" class="btn btn-flat">
+            <i class="fas fa-search"></i> Search
+          </button>
+        </div>
+      </form>
+>>>>>>> e9aa7aa9f9866feb6f1d07e93b9330d311bc2930
   </div>
-</div>
 
-
-
-<div class ="container">
-
-  <h1> Plants List</h1>
   <div class="row">
     <div class="col-lg-12">
       <div class="row">
@@ -38,9 +40,9 @@
             <%= link_to(plant_path(plant), class:"card-trip") do %>
 
               <% if plant.photo.attached? %>
-                <%= image_tag plant.photo, height: 300, width: 400, crop: :fill %>
+                <%= cl_image_tag plant.photo, height: 300, width: 400, crop: :fill %>
               <% else %>
-                <%= asset_url('plant-icon.jpeg') %>
+                <%= image_tag asset_url('plant-icon.jpeg') %>
               <% end %>
 
               <div class="card-trip-infos">
@@ -52,9 +54,9 @@
                 <!-- <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" /> -->
                 <div>
                   <% if plant.user.photo.attached? %>
-                    <%= image_tag plant.user.photo, height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
+                    <%= cl_image_tag plant.user.photo, height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
                   <% else %>
-                      <%= image_tag asset_url('user-icon.png'), height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
+                      <%= cl_image_tag asset_url('user-icon.png'), height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
                   <% end %>
                 </div>
               </div>

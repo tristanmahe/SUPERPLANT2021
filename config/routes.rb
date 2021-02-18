@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
   devise_for :users
-  root to: 'plants#index'
+  root to: 'pages#home'
   resources :plants do 
     resources :rentals, only: [:create] 
   end

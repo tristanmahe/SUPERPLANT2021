@@ -6,12 +6,12 @@
               <% @rentals.each do |rental| %>
               <div class="notification">
                  <% if rental.plant.photo.attached? %>
-                        <%= image_tag rental.plant.photo, height: 56, class:"avatar-large" %>
+                        <%= cl_image_tag rental.plant.photo, height: 56, class:"avatar-large" %>
                       <% else %>
-                        <%= image_tag "plant-icon.jpeg", class:"avatar-large" %>
+                        <%= cl_image_tag "plant-icon.jpeg", class:"avatar-large" %>
                       <% end %>
                   <div class="notification-content">
-                    <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                    <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Days/p>
                     <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
                     <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
                     <p>Cost : <%= rental.cost %></p>
@@ -27,13 +27,13 @@
       </div>
       <div class="col-lg-6">
         <div class="row">
-            <h1 class= "text-justify">My rente plants</h1>
+            <h1 class= "text-justify">My rented plants</h1>
               <% @my_rentals.each do |rental| %>
               <div class="notification">
                  <% if rental.plant.photo.attached? %>
-                        <%= image_tag rental.plant.photo, height: 56, class:"avatar-large" %>
+                        <%= cl_image_tag rental.plant.photo, height: 56, class:"avatar-large" %>
                       <% else %>
-                        <%= image_tag "plant-icon.jpeg", class:"avatar-large" %>
+                        <%= cl_image_tag "plant-icon.jpeg", class:"avatar-large" %>
                       <% end %>
                   <div class="notification-content">
                     <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
@@ -67,9 +67,9 @@
             <%= link_to(plant_path(plant), class:"card-trip") do %>
 
               <% if plant.photo.attached? %>
-                <%= image_tag plant.photo, height: 300, width: 400, crop: :fill %>
+                <%= cl_image_tag plant.photo, height: 300, width: 400, crop: :fill %>
               <% else %>
-                <%= image_tag "plant-icon.jpeg" %>
+                <%= cl_image_tag "plant-icon.jpeg" %>
               <% end %>
 
               <div class="card-trip-infos">

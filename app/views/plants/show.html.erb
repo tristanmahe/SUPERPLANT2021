@@ -1,38 +1,44 @@
+<div class="custom-container">
 
-<div class="card-product">
-  <% if @plant.photo.attached? %>
-  <%= image_tag @plant.photo, height: 300, width: 400, crop: :fill %>
-  <% else %>
-  <%= image_tag asset_url('plant-icon.jpeg') %>
-  <% end %>
-  <div class="card-product-infos">
-    <div>
-      <h2 class="title"><%= @plant.species %></h2>
-      <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. <br>Suscipit ducimus ab provident voluptas non at quas dignissimos fugiat adipisci repudiandae.</br></p>
-      <p><strong><%= @plant.status %></strong></p>
-    </div>
-    <h2 class="card-product-pricing"><%= @plant.pricing %>€/mont</h2>
-    <!-- <img src="https://source.unsplash.com/collection/4389261/50x50" class="card-product-user avatar-bordered" /> -->
-    <div>
-      <% if @plant.user.photo.attached? %>
-        <%= image_tag @plant.user.photo, height: 40, width: 40, class: "card-product-user avatar-bordered"%>
-      <% else %>
-          <%= image_tag asset_url('user-icon.png'), height: 40, width: 40, class: "card-product-user avatar-bordered"%>
-      <% end %>
-    </div>
+    <%= link_to "Back to Plants", plants_path,  class:"btn btn-ghost" %>
+
+    <div class="plant-show-info">
+      <div class="plant-info">
+          <div class="card-product">
+            <% if @plant.photo.attached? %>
+            <%= cl_image_tag @plant.photo, height: 300, width: 400, crop: :fill %>
+            <% else %>
+            <%= cl_image_tag asset_url('plant-icon.jpeg') %>
+            <% end %>
+            <div class="card-product-infos">
+              <div>
+                <h2 class="title"><%= @plant.species %></h2>
+                <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. <br>Suscipit ducimus ab provident voluptas non at quas dignissimos fugiat adipisci repudiandae.</br></p>
+                <p><strong><%= @plant.status %></strong></p>
+              </div>
+              <h2 class="card-product-pricing"><%= @plant.pricing %>€/mont</h2>
+              <!-- <img src="https://source.unsplash.com/collection/4389261/50x50" class="card-product-user avatar-bordered" /> -->
+              <div>
+                <% if @plant.user.photo.attached? %>
+                  <%= cl_image_tag @plant.user.photo, height: 40, width: 40, class: "card-product-user avatar-bordered"%>
+                <% else %>
+                    <%= cl_image_tag asset_url('user-icon.png'), height: 40, width: 40, class: "card-product-user avatar-bordered"%>
+                <% end %>
+              </div>
+            </div>
+          </div>
+      </div>
+
+      <div class="plant-form">
+          <div class="form-container">
+            <%= simple_form_for( [@plant, @rental], remote: true) do |f| %>
+            <%= f.input :start_date %>
+            <%= f.input :end_date %>
+            <%= f.button :submit, class:"btn btn-form" %>
+            <% end %>
+          </div>
+      </div>
+
   </div>
-</div>
 
-
-
-
-<div class="form-container">
-<%= simple_form_for( [@plant, @rental], remote: true) do |f| %>
-<%= f.input :start_date %>
-<%= f.input :end_date %>
-<%= f.button :submit, class:"btn btn-ghost" %>
-<% end %>
-</div>
-<div class= "button-container">
-<%= link_to "Back to Plants", plants_path,  class:"btn btn-ghost" %>
 </div>

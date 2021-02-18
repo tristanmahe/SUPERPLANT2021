@@ -7,8 +7,27 @@
   opacity: 0.6;
   transition: opacity 0.3s ease;
   margin: 10px;
+  margin-top: 20px;
+  margin-left: 20px;
 }
 
 .btn-ghost:hover {
   opacity: 2;
 }
+
+
+.btn-form {
+  color: #4A4A4A;
+  border: 1px solid #4A4A4A;
+  padding: 8px 24px;
+  border-radius: 50px;
+  font-weight: lighter;
+  opacity: 0.6;
+  transition: opacity 0.3s ease;
+}
+
+.btn-form:hover {
+  opacity: 2;
+}
+
+
