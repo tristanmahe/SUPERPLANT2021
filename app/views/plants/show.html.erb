@@ -8,7 +8,7 @@
             <% if @plant.photo.attached? %>
             <%= cl_image_tag @plant.photo.key, height: 300, width: 400, crop: :fill %>
             <% else %>
-            <%= cl_image_tag asset_url('plant-icon.jpeg') %>
+            <%= cl_image_tag 'pefeasa1eawrmiyvdhh5' %>
             <% end %>
             <div class="card-product-infos">
               <div>
@@ -16,13 +16,13 @@
                 <p>Lorem, ipsum dolor sit amet consectetur adipisicing elit. <br>Suscipit ducimus ab provident voluptas non at quas dignissimos fugiat adipisci repudiandae.</br></p>
                 <p><strong><%= @plant.status %></strong></p>
               </div>
-              <h2 class="card-product-pricing"><%= @plant.pricing %>€/mont</h2>
+              <h2 class="card-product-pricing"><%= @plant.pricing %>€/month</h2>
               <!-- <img src="https://source.unsplash.com/collection/4389261/50x50" class="card-product-user avatar-bordered" /> -->
               <div>
                 <% if @plant.user.photo.attached? %>
                   <%= cl_image_tag @plant.user.photo.key, height: 40, width: 40, class: "card-product-user avatar-bordered"%>
                 <% else %>
-                    <%= cl_image_tag asset_url('user-icon.png'), height: 40, width: 40, class: "card-product-user avatar-bordered"%>
+                    <%= cl_image_tag 'esk2mumozchcvhm2zpul', height: 40, width: 40, class: "card-product-user avatar-bordered"%>
                 <% end %>
               </div>
             </div>
@@ -31,9 +31,9 @@
 
       <div class="plant-form">
           <div class="form-container">
-            <%= simple_form_for( [@plant, @rental], remote: true) do |f| %>
-            <%= f.input :start_date %>
-            <%= f.input :end_date %>
+            <%= simple_form_for( [@plant, @rental]) do |f| %>
+            <%= f.input :start_date, as: :string, input_html: {class: "datepicker"} %>
+            <%= f.input :end_date, as: :string, input_html: {class: "datepicker"} %>
             <%= f.button :submit, class:"btn btn-form" %>
             <% end %>
           </div>

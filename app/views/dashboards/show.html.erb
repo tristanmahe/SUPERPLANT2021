@@ -1,84 +1,130 @@
 <div class ="container">
   <div class="row">
-      <div class="col-lg-6">
-        <div class="row">
-          <h1 class= "text-justify">My rentals</h1>
-              <% @rentals.each do |rental| %>
-              <div class="notification">
-                 <% if rental.plant.photo.attached? %>
-                        <%= cl_image_tag rental.plant.photo.key, height: 56, class:"avatar-large" %>
-                      <% else %>
-                        <%= cl_image_tag "plant-icon.jpeg", class:"avatar-large" %>
-                      <% end %>
-                  <div class="notification-content">
-                    <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Days/p>
-                    <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
-                    <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-                    <p>Cost : <%= rental.cost %></p>
-                  </div>
-
-                  <div class="notification-actions">
-                    <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
-                    <a href="#">Delete <i class="far fa-trash-alt"></i></a>
-                  </div>
-                </div>
-              <% end %>
+    <div class="col-lg-6">
+      <div class="row">
+        <h1 class= "text-justify">My rentals</h1>
+        <% @rentals.sort_by{ |rental| rental.end_date }.reverse.each do |rental| %>
+          <div class="notification">
+            <% if rental.plant.photo.attached? %>
+              <%= cl_image_tag rental.plant.photo.key, height: 56, class:"avatar-large" %>
+            <% else %>
+              <%= cl_image_tag "plant-icon.jpeg", class:"avatar-large" %>
+            <% end %>
+            <div class="notification-content">
+              <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Days/p>
+              <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+              <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+              <p>Cost : <%= rental.cost %></p>
+            </div>
+            <div class="notification-actions">
+              <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
+              <a href="#">Delete <i class="far fa-trash-alt"></i></a>
+            </div>
           </div>
+        <% end %>
       </div>
-      <div class="col-lg-6">
-        <div class="row">
-            <h1 class= "text-justify">My rented plants</h1>
-              <% @my_rentals.each do |rental| %>
-              <div class="notification">
-                 <% if rental.plant.photo.attached? %>
-                        <%= cl_image_tag rental.plant.photo.key, height: 56, class:"avatar-large" %>
-                      <% else %>
-                        <%= cl_image_tag "plant-icon.jpeg", class:"avatar-large" %>
-                      <% end %>
-                  <div class="notification-content">
-                    <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
-                    <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
-                    <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-                    <p>Cost : <%= rental.cost %></p>
-                  </div>
-
-                  <div class="notification-actions">
-                    <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
-                    <a href="#">Delete <i class="far fa-trash-alt"></i></a>
-                  </div>
-                </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="row">
+        <h1 class= "text-justify">My rented plants</h1>
+        <% @my_rentals.sort_by{ |rental| rental.end_date }.reverse.each do |rental| %>
+          <% unless rental.start_date >= DateTime.now.to_date || rental.end_date <= DateTime.now.to_date %>
+            <div class="notification">
+              <% if rental.plant.photo.attached? %>
+                <%= cl_image_tag rental.plant.photo.key, height: 56, class:"avatar-large" %>
+              <% else %>
+                <%= cl_image_tag 'pefeasa1eawrmiyvdhh5', class:"avatar-large" %>
               <% end %>
-        </div>
+              <div class="notification-content">
+                <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+                <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+                <p>Cost : <%= rental.cost %></p>
+              </div>
+              <div class="notification-actions">
+                <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
+                <a href="#">Delete <i class="far fa-trash-alt"></i></a>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
       </div>
-     </div>
-
-
-
-
-
-
-
-<div class="row">
+      <div class="row">
+        <h1 class= "text-justify">My booked plants</h1>
+        <% @my_rentals.sort_by{ |rental| rental.end_date }.reverse.each do |rental| %>
+          <% unless rental.start_date <= DateTime.now.to_date%>
+            <div class="notification">
+              <% if rental.plant.photo.attached? %>
+                <%= cl_image_tag rental.plant.photo.key, height: 56, class:"avatar-large" %>
+              <% else %>
+                <%= cl_image_tag 'pefeasa1eawrmiyvdhh5', class:"avatar-large" %>
+              <% end %>
+              <div class="notification-content">
+                <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+                <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+                <p>Cost : <%= rental.cost %></p>
+              </div>
+              <div class="notification-actions">
+                <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
+                <a href="#">Delete <i class="far fa-trash-alt"></i></a>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+      <div class="row">
+        <h1 class= "text-justify">My plants' rental history</h1>
+        <% @my_rentals.sort_by{ |rental| rental.end_date }.reverse.each do |rental| %>
+          <% unless rental.end_date >= DateTime.now.to_date %>
+            <div class="notification">
+              <% if rental.plant.photo.attached? %>
+                <%= cl_image_tag rental.plant.photo.key, height: 56, class:"avatar-large" %>
+              <% else %>
+                <%= cl_image_tag 'pefeasa1eawrmiyvdhh5', class:"avatar-large" %>
+              <% end %>
+              <div class="notification-content">
+                <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
+                <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
+                <p>Cost : <%= rental.cost %></p>
+              </div>
+              <div class="notification-actions">
+                <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
+                <a href="#">Delete <i class="far fa-trash-alt"></i></a>
+              </div>
+            </div>
+          <% end %>
+        <% end %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
     <div class="col-lg-12">
       <h1 class= "text-justify">All my plants</h1>
       <div class="row">
         <% @my_plants.each do |plant| %>
           <div class="col-4">
             <%= link_to(plant_path(plant), class:"card-trip") do %>
-
               <% if plant.photo.attached? %>
                 <%= cl_image_tag plant.photo.key, height: 300, width: 400, crop: :fill %>
               <% else %>
-                <%= cl_image_tag "plant-icon.jpeg" %>
+                <%= cl_image_tag 'pefeasa1eawrmiyvdhh5' %>
               <% end %>
-
               <div class="card-trip-infos">
                 <div>
                   <p class="title"><%= plant.species %></p>
                   <p><%= plant.status %></p>
                 </div>
                 <h2 class="card-trip-pricing"><%= plant.pricing %>€/month</h2>
-                <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" />
+                <!-- <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" /> -->
+                <div>
+                  <% if current_user.photo.attached? %>
+                    <%= cl_image_tag current_user.photo.key, height: 40, width: 40, class: "avatar dropdown-toggle", id: "navbarDropdown" %>
+                  <% else %>
+                    <%= cl_image_tag 'esk2mumozchcvhm2zpul', height: 40, width: 40, class: "avatar dropdown-toggle", id: "navbarDropdown" %>
+                  <% end %>
+                </div>
               </div>
             <% end %>
           </div>

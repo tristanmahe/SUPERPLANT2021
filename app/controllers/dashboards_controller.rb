@@ -1,6 +1,7 @@
 class DashboardsController < ApplicationController
   def show
     @rentals = Rental.where(user_id: current_user)
+    # .sort_by{ |rental| rental.end_date }.reverse
     rentalarray_status(@rentals)
     @my_rentals = Rental.includes(:plant).where(plants: { user_id: current_user.id })
     rentalarray_status(@my_rentals)

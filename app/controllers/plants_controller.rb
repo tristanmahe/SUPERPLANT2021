@@ -2,7 +2,13 @@ class PlantsController < ApplicationController
   skip_before_action :authenticate_user!, only: %i[show index]
 
   def index
-    @plants = policy_scope(Plant).order(created_at: :desc)
+    if params[:query].present?
+      @plants = policy_scope(Plant.search_by_species_and_status(params[:query]))
+      # @plants = policy_scope(Plant).where(species: params[:query])
+    else
+      @plants = policy_scope(Plant).order(created_at: :desc)
+    end
+
     plantarray_status(@plants)
 
     @markers = @plants.map do |plant|
