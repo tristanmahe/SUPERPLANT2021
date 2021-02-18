@@ -78,9 +78,12 @@ puts "preparing data"
 
 # def unsplash_plant_images
 #   plant_collection_url = 'https://source.unsplash.com/collection/5051863'
-#   html_doc = Nokogiri::HTML(open(plant_collection_url).read)
+#   doc = open(plant_collection_url).read
+#   p doc
+#   html_doc = Nokogiri::HTML(doc)
+#   p html_doc
 #   html_doc.search('img').attr('src').each do |element|
-#     p element.text
+#   p element.text
 #   end
 # end
 
