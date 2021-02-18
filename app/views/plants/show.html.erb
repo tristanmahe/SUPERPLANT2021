@@ -8,7 +8,7 @@
             <% if @plant.photo.attached? %>
             <%= cl_image_tag @plant.photo.key, height: 300, width: 400, crop: :fill %>
             <% else %>
-            <%= cl_image_tag asset_url('plant-icon.jpeg') %>
+            <%= cl_image_tag 'pefeasa1eawrmiyvdhh5' %>
             <% end %>
             <div class="card-product-infos">
               <div>
@@ -22,7 +22,7 @@
                 <% if @plant.user.photo.attached? %>
                   <%= cl_image_tag @plant.user.photo.key, height: 40, width: 40, class: "card-product-user avatar-bordered"%>
                 <% else %>
-                    <%= cl_image_tag asset_url('user-icon.png'), height: 40, width: 40, class: "card-product-user avatar-bordered"%>
+                    <%= cl_image_tag 'esk2mumozchcvhm2zpul', height: 40, width: 40, class: "card-product-user avatar-bordered"%>
                 <% end %>
               </div>
             </div>
