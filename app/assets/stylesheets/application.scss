@@ -12,6 +12,7 @@
 // Your CSS partials
 @import "components/index";
 @import "pages/index";
+@import 'mapbox-gl/dist/mapbox-gl';
 
 .form-container {
   background-color: white;

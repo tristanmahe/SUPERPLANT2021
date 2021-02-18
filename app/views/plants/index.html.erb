@@ -1,4 +1,4 @@
-<div class ="container">
+<div class="container">
   <div class="search-index">
       <div class="search-form-control form-group">
         <%= form_tag plants_path, method: :get do %>   
@@ -10,10 +10,13 @@
         <% end %>
       </div>
   </div>
+</div>
 
-  <div class="row">
-    <div class="col-lg-12">
-      <div class="row">
+
+<div class ="container">
+
+      <div class="plants-cards">
+
         <% @plants.each do |plant| %>
           <div class="col-4">
             <%= link_to(plant_path(plant), class:"card-trip") do %>
@@ -43,9 +46,12 @@
           </div>
         <% end %>
       </div>
-    </div>
-  </div>
+
+  
+      <div id="map"
+          style="width: 100%; height: 100vh;"
+          data-markers="<%= @markers.to_json %>"
+          data-mapbox-api-key="<%= ENV['MAPBOX_API_KEY'] %>"></div>
 </div>
 
-
-</div>
+      
