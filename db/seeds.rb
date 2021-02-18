@@ -20,10 +20,12 @@ require 'open-uri'
 #   user.photo.attach(io: file, filename: 'plant-icon.jpeg', content_type: 'image/jpeg')
 # end
 
-puts "destroy data..."
+puts "destroying data..."
+
 Rental.destroy_all
 Plant.destroy_all
 User.destroy_all
+
 puts "data destroyed"
 
 def compute_rental_status(rental)
@@ -48,7 +50,7 @@ def compute_plant_status(plant)
   return "Currently unavailable"
 end
 
-puts "create data ..."
+puts "creating data ..."
 
 planturlarray = []
 
@@ -279,7 +281,13 @@ def create_admins(array, planturlarray)
   end
 end
 
+puts "creating admins..."
+
 create_admins(["tristan", "charles", "benjamin", "pierre"], planturlarray)
+
+puts "done!"
+
+puts "creating regular users..."
 
 15.times do
   user = User.new(
@@ -294,6 +302,9 @@ create_admins(["tristan", "charles", "benjamin", "pierre"], planturlarray)
   user.save!
 end
 
+puts "done!"
+puts "creating plant owners..."
+
 5.times do
   user = User.new(
     name: Faker::GreekPhilosophers.name,
@@ -307,5 +318,7 @@ end
   user.save!
   user_protocol(user, planturlarray)
 end
+
+puts "done!"
 
 puts 'SUCCESS'
