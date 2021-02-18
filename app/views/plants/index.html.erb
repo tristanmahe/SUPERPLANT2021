@@ -20,7 +20,7 @@
             <%= link_to(plant_path(plant), class:"card-trip") do %>
 
               <% if plant.photo.attached? %>
-                <%= cl_image_tag plant.photo, height: 300, width: 400, crop: :fill %>
+                <%= cl_image_tag plant.photo.key, height: 300, width: 400, crop: :fill %>
               <% else %>
                 <%= image_tag asset_url('plant-icon.jpeg') %>
               <% end %>
@@ -34,7 +34,7 @@
                 <!-- <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" /> -->
                 <div>
                   <% if plant.user.photo.attached? %>
-                    <%= cl_image_tag plant.user.photo, height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
+                    <%= cl_image_tag plant.user.photo.key, height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
                   <% else %>
                       <%= cl_image_tag asset_url('user-icon.png'), height: 38, width: 38, class: "card-trip-user avatar-bordered"%>
                   <% end %>
