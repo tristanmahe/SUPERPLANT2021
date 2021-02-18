@@ -32,6 +32,8 @@ gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 gem 'simple_form'
 
+gem 'geocoder'
+
 # Authentication and Authorization
 gem 'devise'
 gem 'pundit'
