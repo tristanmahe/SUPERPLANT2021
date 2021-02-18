@@ -31,6 +31,7 @@ gem 'bootsnap', '>= 1.4.2', require: false
 gem 'autoprefixer-rails'
 gem 'font-awesome-sass'
 gem 'simple_form'
+gem 'pg_search', '~> 2.3.0'
 
 # Authentication and Authorization
 gem 'devise'
