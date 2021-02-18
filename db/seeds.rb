@@ -285,7 +285,7 @@ create_admins(["tristan", "charles", "benjamin", "pierre"], planturlarray)
   user = User.new(
     name: Faker::Artist.name,
     password: Faker::Internet.password,
-    remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s)
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
     longitude: find_reasonable_longitude,
     latitude: find_reasonable_latitude
     )
