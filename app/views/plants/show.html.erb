@@ -1,14 +1,14 @@
 <div class="custom-container">
-  
+
     <%= link_to "Back to Plants", plants_path,  class:"btn btn-ghost" %>
 
     <div class="plant-show-info">
       <div class="plant-info">
           <div class="card-product">
             <% if @plant.photo.attached? %>
-            <%= image_tag @plant.photo, height: 300, width: 400, crop: :fill %>
+            <%= cl_image_tag @plant.photo, height: 300, width: 400, crop: :fill %>
             <% else %>
-            <%= image_tag asset_url('plant-icon.jpeg') %>
+            <%= cl_image_tag asset_url('plant-icon.jpeg') %>
             <% end %>
             <div class="card-product-infos">
               <div>
@@ -20,9 +20,9 @@
               <!-- <img src="https://source.unsplash.com/collection/4389261/50x50" class="card-product-user avatar-bordered" /> -->
               <div>
                 <% if @plant.user.photo.attached? %>
-                  <%= image_tag @plant.user.photo, height: 40, width: 40, class: "card-product-user avatar-bordered"%>
+                  <%= cl_image_tag @plant.user.photo, height: 40, width: 40, class: "card-product-user avatar-bordered"%>
                 <% else %>
-                    <%= image_tag asset_url('user-icon.png'), height: 40, width: 40, class: "card-product-user avatar-bordered"%>
+                    <%= cl_image_tag asset_url('user-icon.png'), height: 40, width: 40, class: "card-product-user avatar-bordered"%>
                 <% end %>
               </div>
             </div>
