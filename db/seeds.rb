@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 require 'open-uri'
+require 'nokogiri'
 
 # these contain the code to attach simple placeholders to the users and plants
 
@@ -74,6 +75,15 @@ puts "preparing data"
 #   end
 #   return resultarray
 # end
+
+# def unsplash_plant_images
+#   plant_collection_url = 'https://source.unsplash.com/collection/5051863'
+#   html_doc = Nokogiri::HTML(open(plant_collection_url).read)
+#   html_doc.search('img').attr('src').each do |element|
+#     p element.text
+#   end
+# end
+
 
 plantarray = [["Berry catchfly", "https://bs.floristic.org/image/o/93bde3663bfe557757802d236931b446f2a31c7d"],
  ["Sulphur cinquefoil", "https://bs.floristic.org/image/o/6f0739fe3e1ad539c819f3da6646142fb56e0df9"],
