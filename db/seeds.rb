@@ -780,9 +780,9 @@ def create_admins(array, plantarray, unsplashurlarray, usernum)
   end
 end
 
-# puts "creating admins..."
-# create_admins(["tristan", "charles", "benjamin", "pierre"], plantarray, unsplashurlarray, usernum)
-# puts 'done!'
+puts "creating admins..."
+create_admins(["benjamin"], plantarray, unsplashurlarray, usernum)
+puts 'done!'
 
 puts "creating regular users..."
 
