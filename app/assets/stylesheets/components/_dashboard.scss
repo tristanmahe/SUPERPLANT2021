@@ -41,3 +41,26 @@
 .notification .notification-actions a:hover {
   color: #555555;
 }
+
+.row.align-self-start {
+  margin-right: 30px;
+  width: 200px;
+}
+
+.container.d-flex.flex-row {
+  margin-top: 20px;
+}
+
+.nav-pills .nav-link.active, .nav-pills .show > .nav-link {
+    color: #fff;
+    background-color: #4ca76c;
+}
+
+a {
+    color: #a0a0a0;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+
+
