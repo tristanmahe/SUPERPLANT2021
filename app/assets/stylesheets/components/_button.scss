@@ -11,6 +11,23 @@
   margin-left: 20px;
 }
 
+.btn-ghost-dark {
+  color: #FFFFFF;
+  padding: 8px 24px;
+  border-radius: 50px;
+  font-weight: bold;
+  opacity: 0.9;
+  transition: opacity 0.3s ease;
+  margin-top: 20px;
+  background-color: #758F43;
+}
+
+
+.btn-ghost-dark:hover {
+  color: white;
+  opacity: 2;
+}
+
 .btn-ghost:hover {
   opacity: 2;
 }

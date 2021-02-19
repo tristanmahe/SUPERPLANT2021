@@ -1,20 +1,25 @@
-<h2>Log in</h2>
+<div class="banner_login" style="background-image: url(https://source.unsplash.com/hX_hf2lPpUU);">
+  <div class="container container-login">
+    <div>
+      <%= link_to "Back to Plants", plants_path, class: "btn btn-ghost" %>
+    </div>
 
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email,
-                required: false,
-                autofocus: true,
-                input_html: { autocomplete: "email" } %>
-    <%= f.input :password,
-                required: false,
-                input_html: { autocomplete: "current-password" } %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
-  </div>
+        <%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
+        <div class="form-inputs">
+          <%= f.input :email,
+                      required: false,
+                      autofocus: true,
+                      input_html: { autocomplete: "email" } %>
+          <%= f.input :password,
+                      required: false,
+                      input_html: { autocomplete: "current-password" } %>
+          <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+        </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Log in" %>
-  </div>
-<% end %>
-
-<%= render "devise/shared/links" %>
+        <%= render "devise/shared/links" %>
+        <div class="form-actions">
+          <%= f.button :submit, "Log in", class:"btn btn-ghost-dark" %>
+        </div>
+      <% end %>
+    </div>
+</div>
