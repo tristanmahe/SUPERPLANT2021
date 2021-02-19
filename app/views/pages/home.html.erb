@@ -1,18 +1,24 @@
-<div class="banner" style="background-image: linear-gradient(rgba(0,0,0,0.4),rgba(0,0,0,0.4)), url(https://source.unsplash.com/NwBx723XaHw);">
-  <div class="container-home">
-    <h1>Super Plant <strong>the first</strong> app <strong>to rent plants</strong>!</h1>
-    <p>Change your life and learn how to rent plants around the world.</p>
-    <%# <form novalidate="novalidate" class="simple_form search" action="/" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /> %>
-      <div class="search-form-control form-group">
-      <%# Implement search method %>
-        <%= form_tag plants_path, method: :get do %>   
-          <%= text_field_tag :query,
-            params[:query],
-            class: "form-control",
-          placeholder: "Find a plant by name or type 'available'"%>
-          <%= submit_tag "Search", class: "btn btn-flat" %>
-          <% end %>
-      </div>
-    <%# </form> %>
-  </div>
-</div>
+
+<header>
+  <!-- <div class="overlay"></div> -->
+  <video playsinline="playsinline" autoplay="autoplay" muted="muted" loop="loop">
+    <source src="https://res.cloudinary.com/dptym4yo6/video/upload/v1613731425/Video-plants_rlaurt.mov" type="video/mp4">
+  </video>
+        <div class="container-home">
+          <dir class= "banner-video">
+            <h1>Super Plant <strong>the first</strong> app <strong>to rent plants</strong>!</h1>
+            <p>Change your life and learn how to rent plants around the world.</p>
+            <%# <form novalidate="novalidate" class="simple_form search" action="/" accept-charset="UTF-8" method="get"><input name="utf8" type="hidden" value="&#x2713;" /> %>
+              <div class="search-form-control form-group">
+              <%# Implement search method %>
+                <%= form_tag plants_path, method: :get do %>
+                  <%= text_field_tag :query,
+                    params[:query],
+                    class: "form-control",
+                  placeholder: "Find a plant by name or type 'available'"%>
+                  <%= submit_tag "Search", class: "btn btn-flat" %>
+                  <% end %>
+              </div>
+            </dir>
+        </div>
+  </header>
