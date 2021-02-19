@@ -30,6 +30,27 @@ class RentalsController < ApplicationController
     end
   end
 
+  def accept
+    @rental = Rental.find(params[:id])
+    authorize @rental
+    if @rental.update(status: "accepted")
+      redirect_to dashboards_path
+    else 
+      redirect_to dashboards_path, alert: "non" 
+    end
+  end
+
+  def deny
+    @rental = Rental.find(params[:id])
+    if @rental.update(status: "denied")
+      redirect_to dashboards_path
+    else 
+      redirect_to dashboards_path, alert: "non" 
+    end
+  end
+
+
+
   private
 
   def rental_params

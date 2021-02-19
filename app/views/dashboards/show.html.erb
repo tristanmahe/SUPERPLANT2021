@@ -28,6 +28,8 @@
       <div class="row">
         <h1 class= "text-justify">My rented plants</h1>
         <% @my_rentals.sort_by{ |rental| rental.end_date }.reverse.each do |rental| %>
+                <h3><%= rental.status %></h3>
+
           <% unless rental.start_date >= DateTime.now.to_date || rental.end_date <= DateTime.now.to_date %>
             <div class="notification">
               <% if rental.plant.photo.attached? %>
@@ -42,8 +44,10 @@
                 <p>Cost : <%= rental.cost %></p>
               </div>
               <div class="notification-actions">
-                <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
-                <a href="#">Delete <i class="far fa-trash-alt"></i></a>
+                <%= link_to accept_rental_path(rental), method: :patch do  %>
+                   <i class="fas fa-pencil-alt"></i>
+                <% end %>
+                <a href="#">deny <i class="far fa-trash-alt"></i></a>
               </div>
             </div>
           <% end %>

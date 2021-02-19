@@ -12,4 +12,12 @@ class RentalPolicy < ApplicationPolicy
   def show?
     true
   end
+
+  def accept?
+    record.plant.user == user
+  end
+  
+  def deny?
+    accept?
+  end
 end
