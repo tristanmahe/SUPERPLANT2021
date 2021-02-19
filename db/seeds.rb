@@ -57,6 +57,8 @@ userurlarray = []
 
 puts "preparing data"
 
+usernum = 0
+
 plantarray = [["Berry catchfly", "https://bs.floristic.org/image/o/93bde3663bfe557757802d236931b446f2a31c7d"],
  ["Sulphur cinquefoil", "https://bs.floristic.org/image/o/6f0739fe3e1ad539c819f3da6646142fb56e0df9"],
  ["Bristly hawksbeard", "https://bs.floristic.org/image/o/4a0c2da151e8ae9384e0e222e8f119f8601ed575"],
@@ -712,7 +714,7 @@ def date_array(start_date, number, repnum)
 end
 
 def user_protocol(user, plantarray, unsplashurlarray)
-  rand(3..7).times do
+  rand(3..6).times do
     pricingnum = rand(1.00..50.00)
     plant = Plant.new(
       pricing: sprintf('%.2f', pricingnum.round(2)),
@@ -740,7 +742,26 @@ def user_protocol(user, plantarray, unsplashurlarray)
   end
 end
 
-def create_admins(array, plantarray, unsplashurlarray)
+def create_demo_accounts(array, plantarray, unsplashurlarray, usernum)
+  array.each do |name|
+    admin = User.new(
+      name: name,
+      password: "tester",
+      email: "#{name}@test.com",
+      remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
+      latitude: 48.8651313,
+      longitude: 2.3778106
+    )
+    file = File.open('app/assets/images/tristan-icon.jpeg')
+    admin.photo.attach(io: file, filename: 'tristan-icon.jpeg', content_type: 'image/jpeg')
+    admin.save!
+    user_protocol(admin, plantarray, unsplashurlarray)
+    usernum += 1
+    puts "users created: #{usernum}"
+  end
+end
+
+def create_admins(array, plantarray, unsplashurlarray, usernum)
   array.each do |name|
     admin = User.new(
       name: name,
@@ -754,18 +775,18 @@ def create_admins(array, plantarray, unsplashurlarray)
     admin.photo.attach(io: file, filename: 'admin-icon.jpeg', content_type: 'image/jpeg')
     admin.save!
     user_protocol(admin, plantarray, unsplashurlarray)
+    usernum += 1
+    puts "users created: #{usernum}"
   end
 end
 
-puts "creating admins..."
-
-create_admins(["tristan", "charles", "benjamin", "pierre"], plantarray, unsplashurlarray)
-
-puts "done!"
+# puts "creating admins..."
+# create_admins(["tristan", "charles", "benjamin", "pierre"], plantarray, unsplashurlarray, usernum)
+# puts 'done!'
 
 puts "creating regular users..."
 
-15.times do
+24.times do
   user = User.new(
     name: Faker::Artist.name,
     password: Faker::Internet.password,
@@ -776,12 +797,14 @@ puts "creating regular users..."
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
   user.save!
+  usernum += 1
+  puts "users created: #{usernum}"
 end
 
 puts "done!"
 puts "creating plant owners..."
 
-5.times do
+3.times do
   user = User.new(
     name: Faker::GreekPhilosophers.name,
     password: Faker::Internet.password,
@@ -793,6 +816,28 @@ puts "creating plant owners..."
   attach_user_icon(user, userurlarray)
   user.save!
   user_protocol(user, plantarray, unsplashurlarray)
+  usernum += 1
+  puts "users created: #{usernum}"
+end
+
+puts "creating tristan's demo account..."
+create_demo_accounts(["tristan_mahe"], plantarray, unsplashurlarray, usernum)
+puts "done!"
+
+9.times do
+  user = User.new(
+    name: Faker::GreekPhilosophers.name,
+    password: Faker::Internet.password,
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
+    longitude: rand(-1.35..12),
+    latitude: rand(44.4..49.2)
+    )
+  user.email = Faker::Internet.email(name: user.name)
+  attach_user_icon(user, userurlarray)
+  user.save!
+  user_protocol(user, plantarray, unsplashurlarray)
+  usernum += 1
+  puts "users created: #{usernum}"
 end
 
 puts "done!"
