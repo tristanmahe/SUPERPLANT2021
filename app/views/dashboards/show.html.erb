@@ -38,6 +38,7 @@
 
       <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">
         <% @my_rentals.sort_by{ |rental| rental.end_date }.reverse.each do |rental| %>
+
               <% unless rental.start_date >= DateTime.now.to_date || rental.end_date <= DateTime.now.to_date %>
                 <div class="notification">
                   <% if rental.plant.photo.attached? %>
@@ -58,6 +59,7 @@
                 </div>
               <% end %>
             <% end %>
+
       </div>
 
       <div class="tab-pane fade" id="v-pills-messages" role="tabpanel" aria-labelledby="v-pills-messages-tab">

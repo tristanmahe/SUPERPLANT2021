@@ -16,6 +16,7 @@ class RentalsController < ApplicationController
 
   def create
     @rental = Rental.new(rental_params)
+    @rental.answer = 'pending'
     @rental.plant = @plant
     @rental.user = current_user
     @rental.cost = (@rental.end_date - @rental.start_date) / (60 * 60 * 24) * @plant.pricing
@@ -29,6 +30,27 @@ class RentalsController < ApplicationController
       render :new
     end
   end
+
+  def accept
+    @rental = Rental.find(params[:id])
+    authorize @rental
+    if @rental.update(answer: "accepted")
+      redirect_to dashboards_path
+    else 
+      redirect_to dashboards_path, alert: "non" 
+    end
+  end
+
+  def deny
+    @rental = Rental.find(params[:id])
+    if @rental.update(answer: "denied")
+      redirect_to dashboards_path
+    else 
+      redirect_to dashboards_path, alert: "non" 
+    end
+  end
+
+
 
   private
 
