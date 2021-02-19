@@ -16,6 +16,7 @@ class RentalsController < ApplicationController
 
   def create
     @rental = Rental.new(rental_params)
+    @plant = Plant.find(params[:plant_id])
     @rental.answer = 'pending'
     @rental.plant = @plant
     @rental.user = current_user
