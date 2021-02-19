@@ -3,8 +3,8 @@
   <div class="row align-self-start">
     <div class="flex-column">
       <div class="nav flex-column nav-pills" id="v-pills-tab" role="tablist" aria-orientation="vertical">
-        <a class="nav-link active" id="v-pills-other-tab" data-toggle="pill" href="#v-pills-other" role="tab" aria-controls="v-pills-other" aria-selected="false">All my plants</a>
-        <a class="nav-link" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="true">My rentals</a>
+        <a class="nav-link" id="v-pills-other-tab" data-toggle="pill" href="#v-pills-other" role="tab" aria-controls="v-pills-other" aria-selected="true">All my plants</a>
+        <a class="nav-link active" id="v-pills-home-tab" data-toggle="pill" href="#v-pills-home" role="tab" aria-controls="v-pills-home" aria-selected="false">My rentals</a>
         <a class="nav-link" id="v-pills-profile-tab" data-toggle="pill" href="#v-pills-profile" role="tab" aria-controls="v-pills-profile" aria-selected="false">My rented plants</a>
         <a class="nav-link" id="v-pills-messages-tab" data-toggle="pill" href="#v-pills-messages" role="tab" aria-controls="v-pills-messages" aria-selected="false">My booked plants</a>
         <a class="nav-link" id="v-pills-settings-tab" data-toggle="pill" href="#v-pills-settings" role="tab" aria-controls="v-pills-settings" aria-selected="false">My history</a>
@@ -23,10 +23,10 @@
               <%= cl_image_tag "plant-icon.jpeg", class:"avatar-large" %>
             <% end %>
             <div class="notification-content">
-              <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Days/p>
+              <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Days</p>
               <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
               <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-              <p>Cost : <%= rental.cost %></p>
+              <p>Cost : <%= rental.cost %>€</p>
             </div>
             <div class="notification-actions">
               <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
@@ -47,10 +47,10 @@
                     <%= cl_image_tag 'pefeasa1eawrmiyvdhh5', class:"avatar-large" %>
                   <% end %>
                   <div class="notification-content">
-                    <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
+                    <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Days</p>
                     <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
                     <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-                    <p>Cost : <%= rental.cost %></p>
+                    <p>Cost : <%= rental.cost %>€</p>
                   </div>
                   <div class="notification-actions">
                     <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
@@ -75,7 +75,7 @@
                     <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
                     <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
                     <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-                    <p>Cost : <%= rental.cost %></p>
+                    <p>Cost : <%= rental.cost %>€</p>
                   </div>
                   <div class="notification-actions">
                     <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
@@ -99,7 +99,7 @@
                     <p>Duration : <%= (rental.end_date - rental.start_date) / (60*60*24) %> Jours</p>
                     <p>Start date : <%= rental.start_date.day %> / <%= rental.start_date.month %> / <%= rental.start_date.year %></p>
                     <p>End date : <%= rental.end_date.day %> / <%= rental.end_date.month %> / <%= rental.end_date.year %></p>
-                    <p>Cost : <%= rental.cost %></p>
+                    <p>Cost : <%= rental.cost %>€</p>
                   </div>
                   <div class="notification-actions">
                     <a href="#">Edit <i class="fas fa-pencil-alt"></i></a>
@@ -112,7 +112,7 @@
 
       <div class="tab-pane fade" id="v-pills-other" role="tabpanel" aria-labelledby="v-pills-other-tab">
         <% @my_plants.each do |plant| %>
-          <div class="col-3">
+          <div class="col-12">
                 <%= link_to(plant_path(plant), class:"card-trip") do %>
                   <% if plant.photo.attached? %>
                     <%= cl_image_tag plant.photo.key, height: 300, width: 400, crop: :fill %>
@@ -128,9 +128,9 @@
                     <!-- <img src="https://kitt.lewagon.com/placeholder/users/krokrob" class="card-trip-user avatar-bordered" /> -->
                     <div>
                       <% if current_user.photo.attached? %>
-                        <%= cl_image_tag current_user.photo.key, height: 40, width: 40, class: "avatar dropdown-toggle", id: "navbarDropdown" %>
+                        <%= cl_image_tag current_user.photo.key, height: 40, width: 40, class: "avatar-bordered card-trip-user dropdown-toggle", id: "navbarDropdown" %>
                       <% else %>
-                        <%= cl_image_tag 'esk2mumozchcvhm2zpul', height: 40, width: 40, class: "avatar dropdown-toggle", id: "navbarDropdown" %>
+                        <%= cl_image_tag 'esk2mumozchcvhm2zpul', height: 40, width: 40, class: "avatar-bordered card-trip-user dropdown-toggle", id: "navbarDropdown" %>
                       <% end %>
                     </div>
                   </div>
