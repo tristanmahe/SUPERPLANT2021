@@ -7,6 +7,7 @@
 #   Character.create(name: 'Luke', movie: movies.first)
 require 'faker'
 require 'open-uri'
+require 'nokogiri'
 
 # these contain the code to attach simple placeholders to the users and plants
 
@@ -52,28 +53,11 @@ end
 
 puts "creating data ..."
 
-planturlarray = []
-
 userurlarray = []
 
 puts "preparing data"
 
-# def fetch_plant_name_and_img
-#   pagetracker = 1
-#   resultarray = []
-#   until pagetracker == 18879 || resultarray.count >= 500
-#     plants_url = "https://trefle.io/api/v1/plants?token=yA9eJF8cwC4SlB3kz7nXhwlnIGHqSFDCAEgxy97hkXE&page=#{pagetracker}"
-#     doc = open(plants_url).read
-#     filearray = JSON.parse(doc)['data']
-#     filearray.each do |file|
-#       unless file["common_name"].nil? || file["image_url"].nil?
-#         resultarray.insert(1, [file["common_name"], file["image_url"]])
-#       end
-#     end
-#     pagetracker += rand(1..3)
-#   end
-#   return resultarray
-# end
+usernum = 0
 
 plantarray = [["Berry catchfly", "https://bs.floristic.org/image/o/93bde3663bfe557757802d236931b446f2a31c7d"],
  ["Sulphur cinquefoil", "https://bs.floristic.org/image/o/6f0739fe3e1ad539c819f3da6646142fb56e0df9"],
@@ -581,12 +565,108 @@ plantarray = [["Berry catchfly", "https://bs.floristic.org/image/o/93bde3663bfe5
  ["Orchardgrass", "https://bs.floristic.org/image/o/428f40dadfa0281dc890ead17fcd07882f9efb09"],
  ["Stinging nettle", "https://bs.floristic.org/image/o/85256a1c2c098e254fefe05040626a4df49ce248"],
  ["Evergreen oak", "https://bs.floristic.org/image/o/1a03948baf0300da25558c2448f086d39b41ca30"]]
-
 plantarray.shuffle!
 
-def attach_plant_icon_and_species(plant, array)
+unsplashurlarray = ["https://images.unsplash.com/photo-1518531933037-91b2f5f229cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1586710513539-8a45b43c1888?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1513432001033-4a7b14b6d039?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1594841230524-2f2b2296a039?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1521206698660-5e077ff6f9c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1576036653836-6e3c886ca10b?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1572421603654-af730fcd1db0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1518665773578-4f13f4ca356c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1588874233223-a537a7db99ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1587021021298-522d056554b4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1575588070967-b3111bac3263?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1587546735412-3086bd5e30ec?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1525310072745-f49212b5ac6d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1528175734205-b5fa955af409?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1523296171310-b0e2cbd886d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1527903624482-4186b06014b7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1542407242725-7d7f3d865665?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1519067438913-7aab3bff2281?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1523854004673-3212647b7f02?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1551265629-2ac0284bd7cc?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1544834044-d638100532cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1497250681960-ef046c08a56e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1577651442014-e399a97ca4fe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1498766707495-856f300a5821?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1579621939346-1721e97c23c8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1446831687499-c9188a15b9bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1547765487-1dbea1e08675?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1503149779833-1de50ebe5f8a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1528105862282-e4333365c1d4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1532510344496-7d508527fe81?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1506634064465-7dab4de896ed?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1569615880429-fcc01139e5ea?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1570343096246-092fa979a4b8?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1542407075-5f16837b2a26?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1525923838299-2312b60f6d69?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1493957988430-a5f2e15f39a3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1425736317462-a103b1303a35?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1513161455079-7dc1de15ef3e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1457089328109-e5d9bd499191?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1440952343424-aac76da97359?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1444156073782-ad0eacb054e5?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1414109918748-922adee5554a?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1435783459217-ee7fe5414abe?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1471899236350-e3016bf1e69e?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1477554193778-9562c28588c0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1469259943454-aa100abba749?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1482003297000-b7663a1673f1?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1496098868818-75736fc02eeb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1494217752358-c6c4a1a82797?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1485841938031-1bf81239b815?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1490276190462-3c300f98bfc4?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1459664018906-085c36f472af?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1554477717-cad0b36509e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1503153181849-4e4f85a341ce?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1598880940080-ff9a29891b85?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1459156212016-c812468e2115?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1466781783364-36c955e42a7f?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1463154545680-d59320fd685d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1508975174-c000113b5900?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1604449075996-83127dc12686?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1606575419690-6031f2f7dbc7?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1554860746-e74d5092a776?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1551970634-747846a548cb?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1562507760-7a90341799e3?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1573619749554-b269f758f106?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1557187764-98fe235c78f9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1491147334573-44cbb4602074?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1465155375712-7f2a9e51f0d2?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1531156992292-d36397ee9184?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1440397699230-0a8b8943a7bd?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1556113275-d186de384a3c?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1539477857993-860599c2e840?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1547550139-3422f89a82f0?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1556528902-d95116c7390d?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1515995891715-1dd7b8fd7823?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1490750967868-88aa4486c946?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit",
+ "https://images.unsplash.com/photo-1562845858-4a657c4ef2e9?crop=entropy&cs=tinysrgb&fit=max&fm=jpg&ixid=MXwxfDB8MXxyYW5kb218fHx8fHx8fA&ixlib=rb-1.2.1&q=80&w=1080&utm_source=unsplash_source&utm_medium=referral&utm_campaign=api-credit"]
+unsplashurlarray.shuffle!
+
+
+# def fetch_plant_name_and_img
+#   pagetracker = 1
+#   resultarray = []
+#   until pagetracker == 18879 || resultarray.count >= 500
+#     plants_url = "https://trefle.io/api/v1/plants?token=yA9eJF8cwC4SlB3kz7nXhwlnIGHqSFDCAEgxy97hkXE&page=#{pagetracker}"
+#     doc = open(plants_url).read
+#     filearray = JSON.parse(doc)['data']
+#     filearray.each do |file|
+#       unless file["common_name"].nil? || file["image_url"].nil?
+#         resultarray.insert(1, [file["common_name"], file["image_url"]])
+#       end
+#     end
+#     pagetracker += rand(1..3)
+#   end
+#   return resultarray
+# end
+
+def attach_plant_icon_and_species(plant, array, unsplasharray)
   plantsubarray = array.delete_at(0)
-  planturl = plantsubarray[1]
+  planturl = unsplasharray.delete_at(0)
   file = URI.open(planturl)
   plant.species = plantsubarray[0]
   plant.photo.attach(io: file, filename: 'plant-icon.jpeg', content_type: 'image/jpeg')
@@ -633,14 +713,14 @@ def date_array(start_date, number, repnum)
   return resultarray
 end
 
-def user_protocol(user, plantarray)
-  rand(3..7).times do
+def user_protocol(user, plantarray, unsplashurlarray)
+  rand(3..6).times do
     pricingnum = rand(1.00..50.00)
     plant = Plant.new(
       pricing: sprintf('%.2f', pricingnum.round(2)),
       user: user
     )
-    attach_plant_icon_and_species(plant, plantarray)
+    attach_plant_icon_and_species(plant, plantarray, unsplashurlarray)
     repnum = (DateTime.now.to_date - user.remember_created_at.to_date).to_f
     absnum = (DateTime.now.to_date - (Faker::Date.between(from: '2018-09-23', to: '2018-09-23')).to_date).to_f
     randomn = (rand(0..7) * Math.sqrt((repnum / absnum))).round(0)
@@ -662,59 +742,102 @@ def user_protocol(user, plantarray)
   end
 end
 
-def create_admins(array, plantarray)
+def create_demo_accounts(array, plantarray, unsplashurlarray, usernum)
   array.each do |name|
     admin = User.new(
       name: name,
       password: "tester",
       email: "#{name}@test.com",
       remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
-      longitude: 48.8651313,
-      latitude: 2.3778106
+      latitude: 48.8651313,
+      longitude: 2.3778106
+    )
+    file = File.open('app/assets/images/tristan-icon.jpeg')
+    admin.photo.attach(io: file, filename: 'tristan-icon.jpeg', content_type: 'image/jpeg')
+    admin.save!
+    user_protocol(admin, plantarray, unsplashurlarray)
+    usernum += 1
+    puts "users created: #{usernum}"
+  end
+end
+
+def create_admins(array, plantarray, unsplashurlarray, usernum)
+  array.each do |name|
+    admin = User.new(
+      name: name,
+      password: "tester",
+      email: "#{name}@test.com",
+      remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
+      latitude: 48.8651313,
+      longitude: 2.3778106
     )
     file = File.open('app/assets/images/admin-icon.png')
     admin.photo.attach(io: file, filename: 'admin-icon.jpeg', content_type: 'image/jpeg')
     admin.save!
-    user_protocol(admin, plantarray)
+    user_protocol(admin, plantarray, unsplashurlarray)
+    usernum += 1
+    puts "users created: #{usernum}"
   end
 end
 
 puts "creating admins..."
-
-create_admins(["tristan", "charles", "benjamin", "pierre"], plantarray)
-
-puts "done!"
+create_admins(["benjamin"], plantarray, unsplashurlarray, usernum)
+puts 'done!'
 
 puts "creating regular users..."
 
-15.times do
+24.times do
   user = User.new(
     name: Faker::Artist.name,
     password: Faker::Internet.password,
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
-    longitude: rand(44.4..49.2),
-    latitude: rand(-1.35..12)
+    longitude: rand(-1.35..12),
+    latitude: rand(44.4..49.2)
     )
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
   user.save!
+  usernum += 1
+  puts "users created: #{usernum}"
 end
 
 puts "done!"
 puts "creating plant owners..."
 
-5.times do
+3.times do
   user = User.new(
     name: Faker::GreekPhilosophers.name,
     password: Faker::Internet.password,
     remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
-    longitude: rand(44.4..49.2),
-    latitude: rand(-1.35..12)
+    longitude: rand(-1.35..12),
+    latitude: rand(44.4..49.2)
     )
   user.email = Faker::Internet.email(name: user.name)
   attach_user_icon(user, userurlarray)
   user.save!
-  user_protocol(user, plantarray)
+  user_protocol(user, plantarray, unsplashurlarray)
+  usernum += 1
+  puts "users created: #{usernum}"
+end
+
+puts "creating tristan's demo account..."
+create_demo_accounts(["tristan_mahe"], plantarray, unsplashurlarray, usernum)
+puts "done!"
+
+9.times do
+  user = User.new(
+    name: Faker::GreekPhilosophers.name,
+    password: Faker::Internet.password,
+    remember_created_at: Faker::Date.between(from: '2018-09-23', to: DateTime.now.to_date.to_s),
+    longitude: rand(-1.35..12),
+    latitude: rand(44.4..49.2)
+    )
+  user.email = Faker::Internet.email(name: user.name)
+  attach_user_icon(user, userurlarray)
+  user.save!
+  user_protocol(user, plantarray, unsplashurlarray)
+  usernum += 1
+  puts "users created: #{usernum}"
 end
 
 puts "done!"
