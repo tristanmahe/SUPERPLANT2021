@@ -24,7 +24,7 @@
               <% if plant.photo.attached? %>
                 <%= cl_image_tag plant.photo.key, height: 300, width: 400, crop: :fill %>
               <% else %>
-                <%= image_tag 'pefeasa1eawrmiyvdhh5' %>
+                <%= cl_image_tag 'pefeasa1eawrmiyvdhh5' %>
               <% end %>
 
               <div class="card-trip-infos">
